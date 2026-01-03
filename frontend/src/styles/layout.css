@@ -1,0 +1,106 @@
+/* Structure globale */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #f1f5f9; 
+  overflow: hidden;
+}
+
+/* Sidebar moderne */
+.sidebar {
+  width: 260px;
+  background: #1e293b; 
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+/* Logo container */
+.sidebar-logo {
+  padding-top: 2rem;    
+  padding-bottom: 1rem; 
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar-logo-img {
+  width: 220px; 
+  height: auto;
+  max-height: 150px; 
+  object-fit: contain;
+  filter: drop-shadow(0 0 15px rgba(130, 207, 240, 0.767));
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.sidebar-logo-img:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation - Ajustement pour laisser de la place au logo */
+.sidebar-nav {
+  margin-top: 1rem; 
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.8rem;
+  gap: 4px;
+}
+
+.sidebar-nav a {
+  padding: 0.8rem 1.2rem;
+  color: #94a3b8; /* Texte discret par défaut */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* État Hover */
+.sidebar-nav a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+}
+
+/* État Actif (La page où on se trouve) */
+.sidebar-nav a.active {
+  background: #ff8c32; 
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 140, 50, 0.3);
+}
+
+/* Footer Sidebar (Clerk UserButton)  */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+}
+
+
+.cl-userButtonOuterIdentifier {
+  color: #ffffff !important;
+}
+/* Zone principale */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.app-content {
+  padding: 2rem;
+  max-width: 1400px; 
+  margin: 0 auto;
+  width: 100%;
+}
