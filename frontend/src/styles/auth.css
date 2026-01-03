@@ -1,0 +1,46 @@
+/* Conteneur principal plein écran */
+.auth-screen {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;    
+  justify-content: center; 
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+              url('/assets/office-bg.jpg') no-repeat center center;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+/* Conteneur pour l'animation du formulaire */
+.auth-container {
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: authFadeIn 0.5s ease-out;
+}
+
+@keyframes authFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Forcer le centrage des éléments internes de Clerk */
+.cl-rootBox {
+  margin: 0 auto !important;
+}
+
+/* Personnalisation du bouton Clerk pour matcher le bleu néon */
+.cl-formButtonPrimary {
+  background-color: #38bdf8 !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background-color: #0ea5e9 !important;
+}
