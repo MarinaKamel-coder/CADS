@@ -1,0 +1,21 @@
+:root {
+  /* Couleurs */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --accent: #ff8c32;
+  --accent-hover: #984f13;
+  --bg-main: #f8fafc;
+  --bg-sidebar: #0f172a;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --error: #ef4444;
+  
+  /* Élévation */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  
+  /* Coins */
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
