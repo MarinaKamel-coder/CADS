@@ -1,0 +1,52 @@
+### Get JWT token (replace with your Clerk session token)
+@baseUrl = http://localhost:3000/api
+@token = USER_SESSION_TOKEN
+
+
+###  Get all clients
+GET {{baseUrl}}/clients
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+###  Get a single client
+GET {{baseUrl}}/clients/CLIENT_ID
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### Create a client
+POST {{baseUrl}}/clients
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "1234567890",
+  "nasNumber": "NAS123456",
+  "address": "123 Main St",
+  "status": "ACTIVE"
+}
+
+###
+
+### Update a client
+PUT {{baseUrl}}/clients/CLIENT_ID
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "phone": "0987654321",
+  "address": "456 New Address"
+}
+
+###
+
+### Delete a client
+DELETE {{baseUrl}}/clients/CLIENT_ID
+Authorization: Bearer {{token}}
+Content-Type: application/json
