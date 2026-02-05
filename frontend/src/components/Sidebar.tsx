@@ -13,19 +13,16 @@ export default function Sidebar() {
 
       <nav className="sidebar-nav">
         <NavLink to="/dashboard" className={({ isActive }) => isActive ? "active" : ""}>
-          Tableau de bord
+          📊 Tableau de bord
         </NavLink>
         <NavLink to="/clients" className={({ isActive }) => isActive ? "active" : ""}>
-          Clients
+          👥 Clients
         </NavLink>
         <NavLink to="/deadlines" className={({ isActive }) => isActive ? "active" : ""}>
-          Obligations
+          📅 Obligations
         </NavLink>
-        <NavLink to="/documents" className={({ isActive }) => isActive ? "active" : ""}>
-          Documents
-        </NavLink>
-        <NavLink to="/settings" className={({ isActive }) => isActive ? "active" : ""}>
-          Paramètres
+        <NavLink to="/alerts" className={({ isActive }) => isActive ? "active" : ""}>
+          🔔 Alerts
         </NavLink>
       </nav>
 
