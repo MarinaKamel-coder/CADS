@@ -7,3 +7,12 @@ export interface ClientForm {
   address: string;
   status: "ACTIVE" | "INACTIVE";
 }
+export interface Client extends ClientForm {
+  id: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  // Optionnel : ajouter les relations si nécessaire
+  documents?: any[]; 
+  deadlines?: any[];
+}
