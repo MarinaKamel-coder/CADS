@@ -25,7 +25,7 @@ export const createClient = async (api: ReturnType<typeof useApi>, data: ClientF
 export const getClients = async (api: ReturnType<typeof useApi>) => {
   const response = await api.get<ClientsListResponse>("/clients");
   // On retourne le tableau de clients
-  return response.data.clients;
+  return response.data.clients || [];
 };
 
 // Récupérer un seul client par ID
@@ -42,6 +42,6 @@ export const deleteClient = async (api: ReturnType<typeof useApi>, id: string) =
 
 // Mettre à jour un client
 export const updateClient = async (api: ReturnType<typeof useApi>, id: string, data: Partial<ClientForm>) => {
-  const response = await api.put<{ message: string }>(`/clients/${id}`, data);
+  const response = await api.patch<{ message: string }>(`/clients/${id}`, data);
   return response.data;
 };
