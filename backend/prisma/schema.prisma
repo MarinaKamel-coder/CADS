@@ -126,6 +126,7 @@ enum DocumentStatus {
 enum DeadlineStatus {
   PENDING
   COMPLETED
+  INACTIVE
 }
 
 enum DeadlinePriority {

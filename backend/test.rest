@@ -1,52 +1,119 @@
-### Get JWT token (replace with your Clerk session token)
+### Configuration des variables
 @baseUrl = http://localhost:3000/api
-@token = USER_SESSION_TOKEN
+@token = eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18zNzRsM09YUGxrNUFZUXlHYnJ1cjAyNHRoM0YiLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwOi8vbG9jYWxob3N0OjUxNzMiLCJleHAiOjE3NjgzMjE4NDMsImZ2YSI6WzI1LC0xXSwiaWF0IjoxNzY4MzIxNzgzLCJpc3MiOiJodHRwczovL2J1c3ktd2FsbGV5ZS04MS5jbGVyay5hY2NvdW50cy5kZXYiLCJuYmYiOjE3NjgzMjE3NzMsInNpZCI6InNlc3NfMzhEM01sMWRINm1GMTF2RFJHMk5MbXM3SjFjIiwic3RzIjoiYWN0aXZlIiwic3ViIjoidXNlcl8zNzd6aUQyYTB2Ylo0ek0wbTlrZzlMNkI3S2ciLCJ2IjoyfQ.0MG-HY9KA9tkU2d-jzYxt7wLf-WIm9EQDQ4eCRKNh9dh4Dt0a4fwmBEWSlFSvkshxswajJhlJUN9YcKXflhtY57-tZQNLe-d_GEk9DjoGe2WjOUdVoOebqlwzitAfoMKGYho1Wruw386rjCOWZ8BAAJLo1BCzX7W5_1X8Y7VFHmPTLyRuqS9WP5u-c8Gsv5D1n4wsi3z1JSI_Gml7_F6RCiRVMiDks6lpioHJp3z64KC-XMpZ0X0H5zxg5QSLq4fUOaSg9bgoEhGaU2AlAJ_VesSal71xWbxHDldhYEcGp-J75zpdRbmWLm3LnElT9CJ7eqTZMVqUtzkpbhLeimXhQ
+@clientId = 30b2d1bd-6dc4-48d6-a8a2-a01a69572499
+@docId = c4fd70f0-72ca-401f-bf0c-6bee4296d592
+@deadlineId = ddf09602-3226-4e48-941a-ad511fccd61b
 
+# ---------------------------------------------------------
+# USERS & SYNC
+# ---------------------------------------------------------
 
-###  Get all clients
+### 1. Récupérer tous les clients
 GET {{baseUrl}}/clients
 Authorization: Bearer {{token}}
-Content-Type: application/json
 
-###
+# ---------------------------------------------------------
+# CLIENTS
+# ---------------------------------------------------------
 
-###  Get a single client
-GET {{baseUrl}}/clients/CLIENT_ID
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-###
-
-### Create a client
+### 2. Créer un client (Indispensable pour la suite)
+# @name createClient
 POST {{baseUrl}}/clients
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com",
-  "phone": "1234567890",
-  "nasNumber": "NAS123456",
-  "address": "123 Main St",
+  "firstName": "Jean",
+  "lastName": "Tremblay",
+  "email": "jean.tremblay@exemple.ca",
+  "phone": "514-555-0199",
+  "nasNumber": "123-456-789",
+  "address": "742 Boul. Taschereau, Longueuil",
   "status": "ACTIVE"
 }
 
-###
-
-### Update a client
-PUT {{baseUrl}}/clients/CLIENT_ID
+### 3. Modifier un client
+PATCH {{baseUrl}}/clients/{{clientId}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
-
 {
   "phone": "0987654321",
   "address": "456 New Address"
 }
 
-###
+### 4. Récupérer un client spécifique (avec ses docs et deadlines)
+GET {{baseUrl}}/clients/{{clientId}}
+Authorization: Bearer {{token}}
 
-### Delete a client
-DELETE {{baseUrl}}/clients/CLIENT_ID
+# ---------------------------------------------------------
+# DOCUMENTS
+# ---------------------------------------------------------
+
+### 5. Upload d'un document (Multipart)
+POST {{baseUrl}}/documents/upload
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="clientId"
+
+{{clientId}}
+--boundary
+Content-Disposition: form-data; name="name"
+
+Bilan_Financier_2025
+--boundary
+Content-Disposition: form-data; name="file"; filename="test.pdf"
+Content-Type: application/pdf
+
+< ./mon-document.pdf
+--boundary--
+
+### 6. Récupérer les documents d'un client spécifique
+GET {{baseUrl}}/documents/client/{{clientId}}
+Authorization: Bearer {{token}}
+
+
+### 7. Changer le statut d'un document
+PATCH {{baseUrl}}/documents/{{docId}}/status
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
+{
+  "status": "APPROVED"
+}
+
+# ---------------------------------------------------------
+# DEADLINES (ÉCHÉANCES)
+# ---------------------------------------------------------
+
+### 8. Créer une échéance fiscale
+POST {{baseUrl}}/deadlines
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "clientId": "{{clientId}}",
+  "title": "Déclaration Proviciale Q1",
+  "description": "Calcul des taxes de vente",
+  "dueDate": "2026-03-31T23:59:59Z",
+  "priority": "HIGH",
+  "type": "PROVINCIAL"
+}
+
+### 9. Liste des échéances triées par date
+GET {{baseUrl}}/deadlines
+Authorization: Bearer {{token}}
+
+# ---------------------------------------------------------
+# NETTOYAGE / SUPPRESSION
+# ---------------------------------------------------------
+
+### 10. Supprimer un document (Supprime aussi le fichier sur le disque)
+DELETE {{baseUrl}}/documents/{{docId}}
+Authorization: Bearer {{token}}
+
+### 11. Supprimer le client (Supprime tout en Cascade)
+DELETE {{baseUrl}}/clients/{{clientId}}
+Authorization: Bearer {{token}}
