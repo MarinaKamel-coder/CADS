@@ -8,20 +8,27 @@ export const getClients = async (req: Request, res: Response) => {
   const clients = await prisma.client.findMany({
     where: { userId: clerkUserId },
     orderBy: { createdAt: "desc" },
+    include: {
+      _count: {
+        select: {
+          documents: true,
+          deadlines: true,
+        },
+      },
+    },
   });
 
-  res.json({ clients });
+  res.json({ clients: clients });
 };
 
-// GET /clients/:id
+// GET /clients/:id (Vue détaillée)
 export const getClient = async (req: Request, res: Response) => {
   const clerkUserId = req.auth!.userId;
   const { id } = req.params;
 
   if (!id) {
-  return res.status(400).json({ message: "Client ID is required" });
+    return res.status(400).json({ message: "Client ID is required" });
   }
-
 
   const client = await prisma.client.findFirst({
     where: {
@@ -32,6 +39,7 @@ export const getClient = async (req: Request, res: Response) => {
       documents: true,
       deadlines: true,
     },
+    
   });
 
   if (!client) {
@@ -59,23 +67,44 @@ export const createClient = async (req: Request, res: Response) => {
 export const updateClient = async (req: Request, res: Response) => {
   const clerkUserId = req.auth!.userId;
   const { id } = req.params;
+  const updateData = req.body;
 
-  if (!id) {
-  return res.status(400).json({ message: "Client ID is required" });
+  try {
+    const result = await prisma.$transaction(async (tx) => {
+
+    if (!id) {
+      return res.status(400).json({ message: "Client ID is required" });
+    }
+      // 1. Mise à jour du client
+      const updatedClient = await tx.client.update({
+        where: { id, userId: clerkUserId },
+        data: updateData,
+      });
+
+      // 2. GESTION DE LA CASCADE
+      if (updateData.status === "INACTIVE") {
+        // Désactiver tout ce qui n'est pas fini
+        await tx.deadline.updateMany({
+          where: { clientId: id, status: "PENDING" },
+          data: { status: "INACTIVE" },
+        });
+      } 
+      else if (updateData.status === "ACTIVE") {
+        // RÉACTIVATION : On repasse les obligations "INACTIVE" en "PENDING"
+        await tx.deadline.updateMany({
+          where: { clientId: id, status: "INACTIVE" },
+          data: { status: "PENDING" },
+        });
+      }
+
+      return updatedClient;
+    });
+
+    res.json({ message: "Statut mis à jour avec succès", client: result });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
   }
-
-  const client = await prisma.client.updateMany({
-    where: { id, userId: clerkUserId },
-    data: req.body,
-  });
-
-  if (!client.count) {
-    return res.status(404).json({ message: "Client not found" });
-  }
-
-  res.json({ message: "Client updated" });
 };
-
 // DELETE /clients/:id
 export const deleteClient = async (req: Request, res: Response) => {
   const clerkUserId = req.auth!.userId;
