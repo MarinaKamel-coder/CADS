@@ -1,0 +1,264 @@
+/* Container Principal */
+.obligations-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header & Controls */
+.page-header {
+  margin-bottom: 30px;
+}
+
+.header-main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.subtitle {
+  color: #718096;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #f8fafc;
+  padding: 12px 20px;
+  border-radius: 12px;
+  width: fit-content;
+  border: 1px solid #e2e8f0;
+}
+
+/* Système de Filtres (Chips) */
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-group .label {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.chip {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: #475569;
+}
+
+.chip:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.chip.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #2563eb;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: #cbd5e1;
+}
+
+.toggle-hide {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #475569;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.toggle-hide input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+/* Tableau */
+.table-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #edf2f7;
+  overflow: hidden;
+}
+
+.obligations-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.obligations-table th {
+  background: #f8fafc;
+  padding: 16px;
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #edf2f7;
+}
+
+.obligations-table td {
+  padding: 16px;
+  border-bottom: 1px solid #edf2f7;
+  vertical-align: middle;
+  color: #2d3748;
+}
+
+/* États des lignes */
+.row-overdue { background-color: #fff5f5; }
+.row-completed { opacity: 0.6; background-color: #f8fafc; }
+
+.text-danger { color: #e53e3e; font-weight: bold; }
+
+.badge-error {
+  display: inline-block;
+  font-size: 0.65rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+  margin-left: 8px;
+  border: 1px solid #f87171;
+}
+
+/* Badges Priorité */
+.prio {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.prio.high { background: #fed7d7; color: #9b2c2c; border: 1px solid #fbb6b6; }
+.prio.medium { background: #feebc8; color: #9c4221; border: 1px solid #fbd38d; }
+.prio.low { background: #c6f6d5; color: #276749; border: 1px solid #9ae6b4; }
+
+/* Status Button (Pill) */
+.status-btn {
+  border: 1px solid transparent;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.status-btn.pending { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+.status-btn.completed { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+.status-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+/* Infos Cellule */
+.deadline-title { font-weight: 700; color: #1a202c; display: block; }
+.deadline-desc { font-size: 0.8rem; color: #718096; margin-top: 2px; line-height: 1.4; }
+
+/* Actions */
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+}
+.btn-icon:hover { background: #fee2e2; }
+
+/* Modale */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Boutons Globaux */
+.primary-btn {
+  background: #3182ce;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #2b6cb0;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px !important;
+  color: #a0aec0;
+  font-style: italic;
+}
+/* Style pour les lignes inactives */
+.row-inactive {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  opacity: 0.8;
+}
+
+.row-inactive .prio {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.badge-inactive {
+  background: #cbd5e1;
+  color: #475569;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+/* Bouton verrouillé */
+.status-btn.inactive {
+  cursor: not-allowed;
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+
+/* On barre le texte pour les lignes complétées ou inactives si nécessaire */
+.row-completed .info-cell strong, .row-inactive .info-cell strong {
+  text-decoration: none; /* À toi de voir si tu veux barrer l'inactif */
+}

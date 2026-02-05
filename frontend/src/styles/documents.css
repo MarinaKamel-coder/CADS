@@ -1,0 +1,79 @@
+.documents-page {
+  padding: 20px;
+}
+
+.docs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.docs-header h1 { margin: 0; color: #1a202c; }
+.subtitle { color: #718096; margin-top: 5px; }
+
+.docs-search-input {
+  padding: 10px 16px;
+  width: 300px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+}
+
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.doc-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.doc-card:hover { transform: translateY(-4px); }
+
+.doc-type-icon { font-size: 2.5rem; margin-bottom: 15px; }
+
+.doc-info h3 {
+  font-size: 1rem;
+  margin: 0 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #2d3748;
+}
+
+.doc-client { font-size: 0.85rem; font-weight: 600; color: #4a5568; margin: 4px 0; }
+.doc-meta { font-size: 0.75rem; color: #a0aec0; }
+
+.doc-footer-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #edf2f7;
+  padding-top: 15px;
+}
+
+.action-link, .action-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.action-link.view { background: #ebf8ff; color: #3182ce; }
+.action-btn.delete { background: #fff5f5; color: #e53e3e; }
+
+.action-link.view:hover { background: #bee3f8; }
+.action-btn.delete:hover { background: #fed7d7; }

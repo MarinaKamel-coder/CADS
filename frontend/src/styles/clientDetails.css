@@ -1,0 +1,317 @@
+/* --- LAYOUT PRINCIPAL --- */
+.client-details-page { 
+  padding: 2rem; 
+  background: #f8fafc; 
+  min-height: 100vh; 
+}
+
+.details-header { 
+  margin-bottom: 2rem; 
+}
+
+.back-btn { 
+  background: none; 
+  border: none; 
+  color: #64748b; 
+  cursor: pointer; 
+  margin-bottom: 1rem; 
+  font-weight: 500; 
+  transition: color 0.2s;
+}
+
+.back-btn:hover { color: #3b82f6; }
+
+.header-content { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+}
+
+.title-section h1 { 
+  font-size: 2.25rem; 
+  margin: 0; 
+  color: #0f172a; 
+}
+
+.meta-tags { 
+  display: flex; 
+  gap: 1rem; 
+  margin-top: 0.5rem; 
+  align-items: center; 
+}
+
+/* --- BADGES & TAGS --- */
+.status-badge { 
+  padding: 4px 12px; 
+  border-radius: 20px; 
+  font-size: 0.85rem; 
+  font-weight: 600; 
+}
+
+.status-badge.active { background: #dcfce7; color: #166534; }
+.status-badge.inactive { background: #fee2e2; color: #991b1b; }
+
+.nas-badge { 
+  background: #f1f5f9; 
+  color: #475569; 
+  padding: 4px 12px; 
+  border-radius: 6px; 
+  font-family: monospace; 
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+}
+
+/* --- NAVIGATION PAR ONGLETS --- */
+.details-tabs { 
+  display: flex; 
+  gap: 2rem; 
+  border-bottom: 2px solid #e2e8f0; 
+  margin-bottom: 2rem; 
+}
+
+.tab-item { 
+  background: none; 
+  border: none; 
+  padding: 1rem 0; 
+  color: #64748b; 
+  font-weight: 600; 
+  cursor: pointer; 
+  position: relative; 
+}
+
+.tab-item.active { color: #3b82f6; }
+.tab-item.active::after { 
+  content: ''; 
+  position: absolute; 
+  bottom: -2px; 
+  left: 0; 
+  right: 0; 
+  height: 2px; 
+  background: #3b82f6; 
+}
+
+/* --- GRILLE D'INFORMATION (Vue d'ensemble) --- */
+.overview-grid { 
+  display: grid; 
+  grid-template-columns: 2fr 1fr; 
+  gap: 2rem; 
+}
+
+.info-card { 
+  background: white; 
+  padding: 1.5rem; 
+  border-radius: 12px; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+}
+
+.info-group { margin-bottom: 1.5rem; }
+.info-group label { 
+  display: block; 
+  font-size: 0.75rem; 
+  text-transform: uppercase; 
+  color: #94a3b8; 
+  letter-spacing: 0.05em; 
+  margin-bottom: 0.25rem; 
+}
+.info-group p { font-weight: 500; color: #1e293b; margin: 0; }
+
+.stats-row { display: flex; gap: 1rem; margin-top: 1rem; }
+.stat-item { 
+  flex: 1; 
+  background: #f0f9ff; 
+  padding: 1rem; 
+  border-radius: 8px; 
+  text-align: center; 
+}
+.stat-num { display: block; font-size: 1.5rem; font-weight: 700; color: #0369a1; }
+.stat-label { font-size: 0.75rem; color: #0ea5e9; }
+
+/* --- DOCUMENTS --- */
+.docs-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 1rem; 
+}
+
+.document-tile { 
+  background: white; 
+  padding: 1rem; 
+  border-radius: 8px; 
+  border: 1px solid #e2e8f0; 
+  display: flex; 
+  align-items: center; 
+  gap: 1rem; 
+}
+
+/* --- OBLIGATIONS & ÉCHÉANCES --- */
+.deadline-item {
+  display: flex; 
+  align-items: center; 
+  background: white; 
+  padding: 12px 20px;
+  border-radius: 10px; 
+  border: 1px solid #e2e8f0; 
+  border-left: 4px solid #cbd5e1;
+  margin-bottom: 10px;
+}
+.deadline-item.high { border-left-color: #ef4444; }
+.deadline-item.medium { border-left-color: #f59e0b; }
+
+/* --- MODALES (Structure commune) --- */
+.modal-overlay {
+  position: fixed; 
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1000;
+}
+
+.modal-content { 
+  background: white; 
+  padding: 2rem; 
+  border-radius: 12px; 
+  width: 100%;
+  max-width: 600px; /* Largeur augmentée pour les 2 colonnes */
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
+}
+
+/* --- FORMULAIRE D'ÉDITION (2 Colonnes) --- */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Deux colonnes */
+  gap: 1rem 1.5rem;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-group input, 
+.form-group select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  transition: all 0.2s;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* --- ACTIONS DU FORMULAIRE --- */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.primary-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background: white;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.client-is-inactive .deadlines-list {
+  opacity: 0.7;
+  pointer-events: none; /* Empêche tout clic sur la liste */
+}
+
+/* Alerte visuelle */
+.status-alert {
+  background: #fff7ed;
+  border: 1px solid #ffedd5;
+  color: #9a3412;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Style des items verrouillés */
+.deadline-item.locked {
+  background: #f8fafc;
+  border-left-color: #cbd5e1 !important; /* Force le gris */
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+/* Bouton Ajouter désactivé */
+button:disabled {
+  background-color: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed;
+  border-color: #e2e8f0 !important;
+}
+
+.document-tile.locked {
+  background: #f1f5f9;
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.document-tile.locked .file-name {
+  color: #64748b;
+}
+
+/* On s'assure que l'alerte est bien visible dans l'onglet documents */
+.documents-view .status-alert {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  border-left: 4px solid #f97316;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .overview-grid { grid-template-columns: 1fr; }
+  .header-content { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .full-width { grid-column: span 1; }
+  .modal-content { width: 95%; padding: 1.5rem; }
+}
