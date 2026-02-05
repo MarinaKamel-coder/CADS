@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import { createDeadline, getUpcomingDeadlines } from '../controllers/deadline.controller';
+import { getDeadlines, createDeadline, updateDeadlineStatus, deleteDeadline } from '../controllers/deadline.controller';
 
 const router = Router();
-router.post('/', createDeadline);
-router.get('/upcoming', getUpcomingDeadlines);
+
+router.get("/", getDeadlines);
+router.post("/", createDeadline);
+router.patch("/:id/status", updateDeadlineStatus);
+router.delete("/:id", deleteDeadline);
 
 export default router;
