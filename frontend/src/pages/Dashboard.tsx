@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { 
   PieChart, Pie, Cell, ResponsiveContainer, 
-  Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid 
+  Tooltip, Legend 
 } from 'recharts';
 
 import DashboardLayout from "../components/DashboardLayout";
