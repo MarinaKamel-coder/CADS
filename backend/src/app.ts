@@ -50,7 +50,4 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(500).json({ message: "Une erreur interne est survenue" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ CADS Backend opérationnel sur le port ${PORT}`);
-});
+export default app;
