@@ -7,7 +7,7 @@ type Props = {
   onAddClient?: () => void;
 };
 
-export default function Layout({ children, onAddClient }: Props) {
+export default function Layout({ children}: Props) {
   return (
     <div className="app-layout">
       <Sidebar />

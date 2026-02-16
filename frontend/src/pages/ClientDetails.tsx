@@ -259,34 +259,34 @@ const handleEditSubmit = async (e: React.FormEvent) => {
               <div className="form-grid">
                 <div className="form-group">
                   <label>Prénom</label>
-                  <input type="text" value={editFormData.firstName} onChange={e => setEditFormData({...editFormData, firstName: e.target.value})} required />
+                  <input aria-label="edit" type="text" value={editFormData.firstName} onChange={e => setEditFormData({...editFormData, firstName: e.target.value})} required />
                 </div>
                 <div className="form-group">
                   <label>Nom</label>
-                  <input type="text" value={editFormData.lastName} onChange={e => setEditFormData({...editFormData, lastName: e.target.value})} required />
+                  <input aria-label="edit" type="text" value={editFormData.lastName} onChange={e => setEditFormData({...editFormData, lastName: e.target.value})} required />
                 </div>
                 <div className="form-group">
                   <label>Courriel</label>
-                  <input type="email" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} required />
+                  <input aria-label="edit" type="email" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} required />
                 </div>
                 <div className="form-group">
                   <label>Téléphone</label>
-                  <input type="text" value={editFormData.phone} onChange={e => setEditFormData({...editFormData, phone: e.target.value})} />
+                  <input aria-label="edit" type="text" value={editFormData.phone} onChange={e => setEditFormData({...editFormData, phone: e.target.value})} />
                 </div>
                 <div className="form-group">
                   <label>NAS / BN</label>
-                  <input type="text" value={editFormData.nasNumber} onChange={e => setEditFormData({...editFormData, nasNumber: e.target.value})} />
+                  <input aria-label="edit" type="text" value={editFormData.nasNumber} onChange={e => setEditFormData({...editFormData, nasNumber: e.target.value})} />
                 </div>
                 <div className="form-group">
                   <label>Statut</label>
-                  <select value={editFormData.status} onChange={e => setEditFormData({...editFormData, status: e.target.value as "ACTIVE" | "INACTIVE"})}>
+                  <select  aria-label="edit" value={editFormData.status} onChange={e => setEditFormData({...editFormData, status: e.target.value as "ACTIVE" | "INACTIVE"})}>
                     <option value="ACTIVE">Actif</option>
                     <option value="INACTIVE">Inactif</option>
                   </select>
                 </div>
                 <div className="form-group full-width"> {/* Adresse prend toute la largeur */}
                   <label>Adresse</label>
-                  <input type="text" value={editFormData.address} onChange={e => setEditFormData({...editFormData, address: e.target.value})} />
+                  <input aria-label="edit" type="text" value={editFormData.address} onChange={e => setEditFormData({...editFormData, address: e.target.value})} />
                 </div>
               </div>
 

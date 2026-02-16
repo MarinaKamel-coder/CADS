@@ -59,6 +59,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
         <div className="form-group">
           <label>Client</label>
           <select 
+           aria-label="edit"
             required 
             value={formData.clientId}
             onChange={(e) => setFormData({...formData, clientId: e.target.value})}
@@ -86,6 +87,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
         <div className="form-group">
           <label>Palier</label>
           <select 
+          aria-label="edit"
             value={formData.type}
             onChange={(e) => setFormData({...formData, type: e.target.value as any})}
           >
@@ -98,6 +100,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
         <div className="form-group">
           <label>Priorité</label>
           <select 
+          aria-label="edit"
             value={formData.priority}
             onChange={(e) => setFormData({...formData, priority: e.target.value as any})}
           >
@@ -110,7 +113,8 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
 
       <div className="form-group">
         <label>Date d'échéance</label>
-        <input 
+        <input
+        aria-label="edit" 
           type="date" 
           required
           value={formData.dueDate}
