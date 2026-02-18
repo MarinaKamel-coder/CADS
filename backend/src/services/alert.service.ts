@@ -1,4 +1,4 @@
-import prisma from "../prisma/prisma.js";
+import prisma from "../prisma/prisma";
 
 export const checkUpcomingDeadlines = async () => {
   const thirtyDaysFromNow = new Date();

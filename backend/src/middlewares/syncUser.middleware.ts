@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import prisma from "../prisma/prisma.js";
+import prisma from "../prisma/prisma";
 import { getAuth, clerkClient } from "@clerk/express";
 
 export const syncUser = async (

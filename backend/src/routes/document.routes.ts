@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { clerkAuth } from '../middlewares/clerk.middleware.js';
-import { upload } from '../middlewares/upload.middleware.js';
+import { clerkAuth } from '../middlewares/clerk.middleware';
+import { upload } from '../middlewares/upload.middleware';
 import { 
   getDocuments, 
   getDocumentsByClientId, 
@@ -8,7 +8,7 @@ import {
   updateDocumentStatus, 
   deleteDocument,
   downloadDocument 
-} from '../controllers/document.controller.js';
+} from '../controllers/document.controller';
 
 const router = Router();
 router.use(clerkAuth);

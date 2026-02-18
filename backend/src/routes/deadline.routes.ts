@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDeadlines, createDeadline, updateDeadlineStatus, deleteDeadline } from '../controllers/deadline.controller.js';
+import { getDeadlines, createDeadline, updateDeadlineStatus, deleteDeadline } from '../controllers/deadline.controller';
 
 const router = Router();
 

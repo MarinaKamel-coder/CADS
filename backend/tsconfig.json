@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "esnext",
     "target": "ES2022",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "bundler",
     "types": ["node"],
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "sourceMap": true,

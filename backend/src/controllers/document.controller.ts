@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../prisma/prisma.js";
+import prisma from "../prisma/prisma";
 import path from 'path';
 import fs from 'fs';
 
