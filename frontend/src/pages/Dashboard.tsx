@@ -65,7 +65,7 @@ export default function Dashboard() {
         {/* GRAPHIQUE DE RÉPARTITION */}
         <div className="card chart-card">
           <h4>Répartition du Portefeuille</h4>
-          <div className="chart-container" style={{ width: '100%', height: 300 }}>
+          <div className="chart-container">
             {loading ? (
               <div className="loader-placeholder">Chargement...</div>
             ) : totalClients > 0 ? (
