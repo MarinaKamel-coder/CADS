@@ -18,10 +18,19 @@ export const useApi = () => {
       headers.set("Content-Type", "application/json");
     }
 
-    const response = await fetch(`${API_BASE_URL.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`, {
-      ...options,
-      headers,
-    });
+    // Nettoyage rigoureux :
+      const base = API_BASE_URL.replace(/\/$/, ''); // Enlève le slash à la fin de l'URL de base
+      const path = endpoint.replace(/^\//, '');    // Enlève le slash au début de l'endpoint
+      
+      const cleanUrl = `${base}/${path}`; 
+      // Résultat attendu : https://cads-ieog.vercel.app/api/clients
+
+      console.log("Appel API vers :", cleanUrl); // Ajoute ceci pour débugger dans la console !
+
+      const response = await fetch(cleanUrl, {
+        ...options,
+        headers,
+      });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
