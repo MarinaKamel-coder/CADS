@@ -18,7 +18,7 @@ export const useApi = () => {
       headers.set("Content-Type", "application/json");
     }
 
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    const response = await fetch(`${API_BASE_URL.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`, {
       ...options,
       headers,
     });
