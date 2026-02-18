@@ -19,13 +19,15 @@ export const useApi = () => {
     }
 
     // Nettoyage rigoureux :
-      const base = API_BASE_URL.replace(/\/$/, ''); // Enlève le slash à la fin de l'URL de base
-      const path = endpoint.replace(/^\//, '');    // Enlève le slash au début de l'endpoint
-      
-      const cleanUrl = `${base}/${path}`; 
-      // Résultat attendu : https://cads-ieog.vercel.app/api/clients
+    const base = API_BASE_URL.replace(/\/$/, '');
+    const path = endpoint.replace(/^\//, '');
 
-      console.log("Appel API vers :", cleanUrl); // Ajoute ceci pour débugger dans la console !
+    // FORCE l'ajout de /api si tu vois qu'il manque dans les logs
+    const cleanUrl = base.includes('/api') 
+      ? `${base}/${path}` 
+      : `${base}/api/${path}`;
+
+    console.log("Appel API vers :", cleanUrl);
 
       const response = await fetch(cleanUrl, {
         ...options,
