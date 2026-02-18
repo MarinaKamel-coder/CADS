@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Import des routes
 import clientRoutes from './routes/client.routes.js';
@@ -14,8 +15,9 @@ import alertRoutes from "./routes/alert.routes.js";
 import { clerkAuth, requireAuth } from './middlewares/clerk.middleware.js';
 import { syncUser } from "./middlewares/syncUser.middleware.js";
 
-
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 const app = express();
 
 // Configuration CORS unique et solide
@@ -43,12 +45,12 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-const uploadDir = './uploads';
+const uploadDir = path.join(process.cwd(), 'uploads'); 
 if (!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir);
+    fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(uploadDir));
 // 2. Authentification globale (Clerk)
 // Ce middleware intercepte le jeton JWT et remplit req.auth
 app.use(clerkAuth);
