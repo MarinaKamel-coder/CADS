@@ -26,7 +26,7 @@ if (!fs.existsSync(uploadDir)){
 
 // 1. Middlewares de base
 app.use(cors({
-  origin: "https://cads-9vg7v67za-marina-kamels-projects.vercel.app",
+  origin: ["https://cads-9vg7v67za-marina-kamels-projects.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
