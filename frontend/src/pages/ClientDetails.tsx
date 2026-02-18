@@ -1,13 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApi } from "../hooks/useApi";
-import { API_BASE_URL } from "../config";
 import { getClientById, updateClient } from "../service/client.api";
 import { getClientDocuments } from "../service/document.api";
 import FileUploader from "../components/FileUploader";
 import AddDeadlineForm from "../components/AddDeadlineForm";
 
 import '../styles/clientDetails.css';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 type TabType = "overview" | "obligations" | "documents";
 
