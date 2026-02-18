@@ -1,7 +1,7 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useCallback } from "react";
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const useApi = () => {
   const { getToken } = useAuth();
