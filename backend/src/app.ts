@@ -28,13 +28,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// 2. Middleware spécial Preflight (À placer AVANT Clerk et les routes)
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://cads-murex.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-
-  if (req.method === "OPTIONS") {
+  // Si c'est une requête OPTIONS, on répond 200 OK immédiatement avec les bons headers
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', 'https://cads-murex.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
     return res.sendStatus(200);
   }
   next();
