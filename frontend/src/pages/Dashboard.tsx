@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { 
-  PieChart, Pie, Cell, ResponsiveContainer, 
-  Tooltip, Legend 
-} from 'recharts';
+import {  PieChart, Pie, Cell, ResponsiveContainer,Tooltip, Legend} from 'recharts';
 
 import DashboardLayout from "../components/DashboardLayout";
 import StatCard from "../components/StatCard";
@@ -15,7 +12,8 @@ import "../styles/dashboard.css";
 import '../styles/variables.css';
 
 export default function Dashboard() {
-  const api = useApi();
+  const { request } = useApi();
+  const apiObj = { request };
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [openAddClient, setOpenAddClient] = useState(false);
@@ -23,14 +21,14 @@ export default function Dashboard() {
   // 1. Récupération des données
   const fetchClients = useCallback(async () => {
     try {
-      const data = await getClients(api);
+      const data = await getClients(apiObj);
       setClients(data);
     } catch (err) {
       console.error("Erreur lors de la récupération des clients:", err);
     } finally {
       setLoading(false);
     }
-  }, [api]);
+  }, [request]);
 
   useEffect(() => {
     fetchClients();

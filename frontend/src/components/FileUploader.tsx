@@ -3,7 +3,7 @@ import { useApi } from "../hooks/useApi";
 import { uploadDocument } from "../service/document.api";
 
 export default function FileUploader({ clientId, onUploadSuccess }: { clientId: string, onUploadSuccess: () => void }) {
-  const api = useApi();
+  const { request } = useApi();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -11,7 +11,7 @@ export default function FileUploader({ clientId, onUploadSuccess }: { clientId: 
     if (!file) return;
     setUploading(true);
     try {
-      await uploadDocument(api, clientId, file, "FACTURE"); // Type par défaut
+      await uploadDocument({ request }, clientId, file, "FACTURE"); // Type par défaut
       setFile(null);
       onUploadSuccess();
       alert("Document ajouté avec succès !");

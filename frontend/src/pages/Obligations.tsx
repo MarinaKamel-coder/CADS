@@ -8,7 +8,8 @@ import "../styles/obligations.css";
 type SortOption = "date" | "priority";
 
 export default function Obligations() {
-  const api = useApi();
+  const { request } = useApi();
+  const apiObj = { request };
   const [deadlines, setDeadlines] = useState<Deadline[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function Obligations() {
   const fetchDeadlines = async () => {
     try {
       setLoading(true);
-      const data = await getDeadlines(api);
+      const data = await getDeadlines(apiObj);
       setDeadlines(data);
     } catch (error) {
       console.error("Erreur chargement:", error);
@@ -32,7 +33,7 @@ export default function Obligations() {
   // Recharger les données au montage du composant
   useEffect(() => {
     fetchDeadlines();
-  }, [api]);
+  }, [request]);
 
   // LOGIQUE DE FILTRAGE + TRI
   const processedDeadlines = useMemo(() => {
@@ -62,7 +63,7 @@ export default function Obligations() {
 
     const newStatus = currentStatus === "PENDING" ? "COMPLETED" : "PENDING";
     try {
-      await updateDeadlineStatus(api, id, newStatus);
+      await updateDeadlineStatus(apiObj, id, newStatus);
       // Mise à jour locale de l'état
       setDeadlines(prev => prev.map(d => 
         d.id === id ? { ...d, status: newStatus as any } : d
@@ -79,7 +80,7 @@ export default function Obligations() {
     }
     if (!window.confirm("Supprimer cette échéance ?")) return;
     try {
-      await deleteDeadline(api, id);
+      await deleteDeadline(apiObj, id);
       setDeadlines(prev => prev.filter(d => d.id !== id));
     } catch (error) {
       alert("Erreur lors de la suppression.");

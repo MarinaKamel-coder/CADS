@@ -1,20 +1,29 @@
-import type {Alert} from '../types/alerts';
-
+import type { Alert } from '../types/alerts';
 
 /**
- * Récupère toutes les alertes de l'utilisateur connecté
+ * Récupère toutes les notifications/alertes de l'utilisateur.
+ * Backend : GET /api/alerts
  */
-export const getAlerts = async (api: any): Promise<Alert[]> => {
-  // On enlève le premier /api car il est déjà dans la config de base
-  const response = await api.get("/alerts"); 
-  return response.data;
+export const getAlerts = async (api: { request: Function }): Promise<Alert[]> => {
+  return await api.request("/alerts");
 };
 
-export const markAlertAsRead = async (api: any, id: string): Promise<void> => {
-  await api.patch(`/alerts/${id}/read`);
+/**
+ * Marque une alerte spécifique comme lue.
+ * Backend : PATCH /api/alerts/:id/read
+ */
+export const markAlertAsRead = async (api: { request: Function }, id: string): Promise<void> => {
+  await api.request(`/alerts/${id}/read`, {
+    method: "PATCH"
+  });
 };
 
-export const clearReadAlerts = async (api: any): Promise<{ message: string }> => {
-  const response = await api.delete("/alerts/clear");
-  return response.data;
+/**
+ * Supprime définitivement toutes les alertes ayant le statut 'read: true'.
+ * Backend : DELETE /api/alerts/clear
+ */
+export const clearReadAlerts = async (api: { request: Function }): Promise<{ message: string }> => {
+  return await api.request("/alerts/clear", {
+    method: "DELETE"
+  });
 };

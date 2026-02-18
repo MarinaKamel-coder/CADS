@@ -5,7 +5,8 @@ import type {Alert} from '../types/alerts';
 import "../styles/alerts.css";
 
 export default function Alerts() {
-  const api = useApi();
+  const { request } = useApi();
+  const apiObj = { request }; 
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"ALL" | "UNREAD">("ALL");
@@ -13,7 +14,7 @@ export default function Alerts() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const data = await getAlerts(api);
+      const data = await getAlerts(apiObj);
       setAlerts(data);
     } catch (error) {
       console.error("Erreur lors du chargement des alertes", error);
@@ -24,7 +25,7 @@ export default function Alerts() {
 
   useEffect(() => {
     loadData();
-  }, [api]);
+  }, [request]);
 
   // Filtrage des alertes selon le choix de l'utilisateur
   const filteredAlerts = useMemo(() => {
@@ -34,7 +35,7 @@ export default function Alerts() {
 
   const handleMarkAsRead = async (id: string) => {
     try {
-      await markAlertAsRead(api, id);
+      await markAlertAsRead(apiObj, id);
       setAlerts(prev => prev.map(a => a.id === id ? { ...a, read: true } : a));
     } catch (error) {
       alert("Erreur lors de la mise à jour.");
@@ -47,7 +48,7 @@ export default function Alerts() {
 
     if (window.confirm("Voulez-vous supprimer définitivement toutes les alertes lues ?")) {
       try {
-        await clearReadAlerts(api);
+        await clearReadAlerts(apiObj);
         setAlerts(prev => prev.filter(a => !a.read));
       } catch (error) {
         alert("Erreur lors du nettoyage.");

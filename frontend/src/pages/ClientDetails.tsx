@@ -1,14 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useApi } from "../hooks/useApi";
+import { useApi, API_BASE_URL } from "../hooks/useApi";
 import { getClientById, updateClient } from "../service/client.api";
 import { getClientDocuments } from "../service/document.api";
 import FileUploader from "../components/FileUploader";
 import AddDeadlineForm from "../components/AddDeadlineForm";
 
 import '../styles/clientDetails.css';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 type TabType = "overview" | "obligations" | "documents";
 
@@ -26,7 +24,8 @@ interface EditClientForm {
 export default function ClientDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const api = useApi();
+  const { request } = useApi();
+  const apiObj = { request }; 
   
   const [client, setClient] = useState<any>(null);
   const [documents, setDocuments] = useState<any[]>([]);
@@ -49,7 +48,7 @@ export default function ClientDetails() {
   const loadData = useCallback(async () => {
     if (!id) return;
     try {
-      const clientData = await getClientById(api, id);
+      const clientData = await getClientById(apiObj, id);
       setClient(clientData);
       
       // On pré-remplit les champs de modification avec les données actuelles
@@ -63,12 +62,12 @@ export default function ClientDetails() {
         status: clientData.status as "ACTIVE" | "INACTIVE"
       });
       
-      const docsData = await getClientDocuments(api, id);
+      const docsData = await getClientDocuments(apiObj, id);
       setDocuments(Array.isArray(docsData) ? docsData : docsData.documents || []);
     } catch (err) {
       console.error("Erreur lors du chargement des données:", err);
     }
-  }, [api, id]);
+  }, [id, request]);
 
   useEffect(() => {
     loadData();
@@ -79,7 +78,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
   try {
     // 1. On envoie TOUT l'objet editFormData (qui contient le status) au backend
     // Le backend verra le changement de status et déclenchera la transaction Prisma
-    await updateClient(api, id!, editFormData);
+    await updateClient(apiObj, id!, editFormData);
 
     setIsEditModalOpen(false);
     
@@ -104,7 +103,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
   const handleDeleteDoc = async (docId: string) => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce document ?")) return;
     try {
-      await api.delete(`/documents/${docId}`);
+      await request(`/documents/${docId}`,{ method: 'DELETE' });
       loadData();
     } catch (err) { alert("Erreur lors de la suppression."); }
   };
@@ -112,7 +111,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
   const handleDeleteDeadline = async (deadlineId: string) => {
     if (!window.confirm("Supprimer cette obligation fiscale ?")) return;
     try {
-      await api.delete(`/deadlines/${deadlineId}`);
+      await request(`/deadlines/${deadlineId}`, { method: 'DELETE' });
       loadData();
     } catch (err) { alert("Erreur lors de la suppression."); }
   };

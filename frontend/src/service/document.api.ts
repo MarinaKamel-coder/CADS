@@ -1,7 +1,5 @@
-import { useApi } from "../hooks/useApi";
-
 export const uploadDocument = async (
-  api: ReturnType<typeof useApi>, 
+  api: { request: Function }, 
   clientId: string, 
   file: File, 
   type: string
@@ -11,13 +9,14 @@ export const uploadDocument = async (
   formData.append("type", type);
   formData.append("clientId", clientId);
 
-  const response = await api.post(`/documents/upload`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
+  return await api.request("/documents/upload", {
+    method: "POST",
+    body: formData, // Fetch détecte le FormData et gère les headers
   });
-  return response.data;
 };
 
-export const getClientDocuments = async (api: ReturnType<typeof useApi>, clientId: string) => {
-  const response = await api.get(`/documents/client/${clientId}`);
-  return response.data.documents;
+// Récupérer les documents d'un client
+export const getClientDocuments = async (api: { request: Function }, clientId: string) => {
+  const data = await api.request(`/documents/client/${clientId}`);
+  return data.documents || [];
 };

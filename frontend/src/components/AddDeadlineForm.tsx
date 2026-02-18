@@ -10,7 +10,8 @@ interface AddDeadlineFormProps {
 }
 
 export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDeadlineFormProps) {
-  const api = useApi();
+  const { request } = useApi();
+  const apiObj = { request };
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,9 +27,9 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
   useEffect(() => {
     // On ne charge les clients que si on n'a pas déjà un clientId
     if (!clientId) {
-      getClients(api).then(setClients).catch(console.error);
+      getClients(apiObj).then(setClients).catch(console.error);
     }
-  }, [api, clientId]);
+  }, [clientId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,11 +41,11 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
         dueDate: new Date(formData.dueDate).toISOString(),
       };
       
-      await createDeadline(api, payload);
+      await createDeadline(apiObj, payload);
       onSuccess();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Erreur lors de la création de l'obligation.");
+      alert(error.message || "Erreur lors de la création de l'obligation.");
     } finally {
       setLoading(false);
     }

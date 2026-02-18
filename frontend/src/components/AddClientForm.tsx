@@ -6,7 +6,7 @@ import '../styles/components.css';
 import '../styles/variables.css';
 
 export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) {
-  const api = useApi();
+  const { request } = useApi();
   const [loading, setLoading] = useState(false); // État pour gérer l'attente
   const [error, setError] = useState<string | null>(null); // État pour afficher les erreurs UI
 
@@ -33,7 +33,7 @@ export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) 
     setError(null);
 
     try {
-      await createClient(api, form); 
+      await createClient({ request }, form); 
       
       // Réinitialisation du formulaire
       setForm({
@@ -51,7 +51,7 @@ export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) 
       
     } catch (err: any) {
       console.error("Error creating client:", err);
-      setError(err.response?.data?.message || "Une erreur est survenue lors de l'ajout.");
+      setError(err.message || "Une erreur est survenue lors de l'ajout.");
     } finally {
       setLoading(false);
     }

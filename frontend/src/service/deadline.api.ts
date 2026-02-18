@@ -1,38 +1,37 @@
-import { useApi } from "../hooks/useApi";
-import type { Deadline } from "../types/deadlines";
 
-// Interface pour correspondre à ton schéma Prisma
-
-// 1. Récupérer toutes les échéances (Dashboard / Page Obligations)
-export const getDeadlines = async (api: ReturnType<typeof useApi>) => {
-  const response = await api.get<Deadline[]>("/deadlines");
-  return response.data; // Ton backend renvoie directement le tableau
+// 1. Récupérer toutes les échéances
+export const getDeadlines = async (api: { request: Function }) => {
+  return await api.request("/deadlines");
 };
 
 // 2. Récupérer les échéances d'un client spécifique
-export const getClientDeadlines = async (api: ReturnType<typeof useApi>, clientId: string) => {
-  const response = await api.get<Deadline[]>(`/deadlines/client/${clientId}`);
-  return response.data;
+export const getClientDeadlines = async (api: { request: Function }, clientId: string) => {
+  return await api.request(`/deadlines/client/${clientId}`);
 };
 
 // 3. Créer une nouvelle échéance
-export const createDeadline = async (api: ReturnType<typeof useApi>, data: Partial<Deadline>) => {
-  const response = await api.post<Deadline>("/deadlines", data);
-  return response.data;
+export const createDeadline = async (api: { request: Function }, data: any) => {
+  return await api.request("/deadlines", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 };
 
-// 4. Mettre à jour le statut (C'est ce que ton bouton utilise)
+// 4. Mettre à jour le statut
 export const updateDeadlineStatus = async (
-  api: ReturnType<typeof useApi>, 
+  api: { request: Function }, 
   id: string, 
-  status: string
+  status: "PENDING" | "COMPLETED" | "OVERDUE"
 ) => {
-  const response = await api.patch<{ message: string }>(`/deadlines/${id}/status`, { status });
-  return response.data;
+  return await api.request(`/deadlines/${id}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
 };
 
 // 5. Supprimer une échéance
-export const deleteDeadline = async (api: ReturnType<typeof useApi>, id: string) => {
-  const response = await api.delete<{ message: string }>(`/deadlines/${id}`);
-  return response.data;
+export const deleteDeadline = async (api: { request: Function }, id: string) => {
+  return await api.request(`/deadlines/${id}`, {
+    method: "DELETE",
+  });
 };
