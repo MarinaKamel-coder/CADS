@@ -27,7 +27,7 @@ if (!fs.existsSync(uploadDir)){
 // 1. Middlewares de base
 app.use(cors({
   origin: ["https://cads-murex.vercel.app", "http://localhost:5173"],
-  credentials: true,
+  credentials: true
 }));
 
 
