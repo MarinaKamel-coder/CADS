@@ -16,7 +16,7 @@ interface ClientsListResponse {
 // Ajouter un client
 export const createClient = async (api: ReturnType<typeof useApi>, data: ClientForm) => {
   // On attend la réponse d'Axios
-  const response = await api.post<ClientResponse>("/clients", data);
+  const response = await api.post<ClientResponse>("/clients", data,{withCredentials:true});
   // On retourne uniquement l'objet client pour simplifier l'usage dans le composant
   return response.data.client;
 };
