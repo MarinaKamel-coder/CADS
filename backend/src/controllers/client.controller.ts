@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import prisma from "../prisma/prisma";
+import prisma from "../prisma/prisma.js";
+
 
 // GET /clients
 export const getClients = async (req: Request, res: Response) => {
@@ -70,7 +71,7 @@ export const updateClient = async (req: Request, res: Response) => {
   const updateData = req.body;
 
   try {
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
 
     if (!id) {
       return res.status(400).json({ message: "Client ID is required" });

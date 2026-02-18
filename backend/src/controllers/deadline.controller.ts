@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import prisma from "../prisma/prisma";
+import prisma from "../prisma/prisma.js";
+
 
 export const getDeadlines = async (req: Request, res: Response) => {
   const clerkUserId = req.auth!.userId;
@@ -18,7 +19,7 @@ export const createDeadline = async (req: Request, res: Response) => {
   if (!clientId) return res.status(400).json({ message: "ID client requis" });
 
   // Utilisation d'une transaction pour créer la deadline ET l'alerte
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx: any) => {
     const deadline = await tx.deadline.create({
       data: {
         title,
@@ -56,7 +57,7 @@ export const updateDeadlineStatus = async (req: Request, res: Response) => {
 
   if (!id) return res.status(400).json({ message: "ID requis" });
 
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx: any) => {
     const deadline = await tx.deadline.updateMany({
       where: { 
         id, 
