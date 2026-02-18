@@ -26,7 +26,7 @@ if (!fs.existsSync(uploadDir)){
 
 // 1. Middlewares de base
 app.use(cors({
-  origin: ["https://cads-9vg7v67za-marina-kamels-projects.vercel.app"],
+  origin: ["https://cads-murex.vercel.app/", "http://localhost:5173"],
   credentials: true
 }));
 app.use(express.json());
