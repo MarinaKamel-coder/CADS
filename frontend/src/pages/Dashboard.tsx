@@ -6,14 +6,14 @@ import DashboardLayout from "../components/DashboardLayout";
 import StatCard from "../components/StatCard";
 import AddClientForm from "../components/AddClientForm";
 import { getClients } from "../service/client.api";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 
 import "../styles/dashboard.css";
 import '../styles/variables.css';
 
 export default function Dashboard() {
-  const { request } = useApi();
-  const apiObj = { request };
+  
+  const { getToken } = useAuth();
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [openAddClient, setOpenAddClient] = useState(false);
@@ -21,14 +21,14 @@ export default function Dashboard() {
   // 1. Récupération des données
   const fetchClients = useCallback(async () => {
     try {
-      const data = await getClients(apiObj);
+      const data = await getClients(getToken);
       setClients(data);
     } catch (err) {
       console.error("Erreur lors de la récupération des clients:", err);
     } finally {
       setLoading(false);
     }
-  }, [request]);
+  }, [getToken]);
 
   useEffect(() => {
     fetchClients();

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 import { uploadDocument } from "../service/document.api";
 
 export default function FileUploader({ clientId, onUploadSuccess }: { clientId: string, onUploadSuccess: () => void }) {
-  const { request } = useApi();
+  const { getToken } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -11,7 +11,7 @@ export default function FileUploader({ clientId, onUploadSuccess }: { clientId: 
     if (!file) return;
     setUploading(true);
     try {
-      await uploadDocument({ request }, clientId, file, "FACTURE"); // Type par défaut
+      await uploadDocument(getToken , clientId, file, "FACTURE"); // Type par défaut
       setFile(null);
       onUploadSuccess();
       alert("Document ajouté avec succès !");

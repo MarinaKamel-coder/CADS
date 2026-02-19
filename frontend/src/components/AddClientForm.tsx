@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 import type { ClientForm } from "../types/client";
 import { createClient } from "../service/client.api";
 import '../styles/components.css';
 import '../styles/variables.css';
 
 export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) {
-  const { request } = useApi();
+  const { getToken } = useAuth();
   const [loading, setLoading] = useState(false); // État pour gérer l'attente
   const [error, setError] = useState<string | null>(null); // État pour afficher les erreurs UI
-
   const [form, setForm] = useState<ClientForm>({
     firstName: "",
     lastName: "",
@@ -33,7 +32,7 @@ export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) 
     setError(null);
 
     try {
-      await createClient({ request }, form); 
+      await createClient(getToken , form); 
       
       // Réinitialisation du formulaire
       setForm({

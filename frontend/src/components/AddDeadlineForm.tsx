@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 import { getClients } from "../service/client.api";
 import { createDeadline } from "../service/deadline.api";
 
@@ -10,8 +10,7 @@ interface AddDeadlineFormProps {
 }
 
 export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDeadlineFormProps) {
-  const { request } = useApi();
-  const apiObj = { request };
+  const { getToken } = useAuth();
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +26,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
   useEffect(() => {
     // On ne charge les clients que si on n'a pas déjà un clientId
     if (!clientId) {
-      getClients(apiObj).then(setClients).catch(console.error);
+      getClients(getToken).then(setClients).catch(console.error);
     }
   }, [clientId]);
 
@@ -41,7 +40,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
         dueDate: new Date(formData.dueDate).toISOString(),
       };
       
-      await createDeadline(apiObj, payload);
+      await createDeadline(getToken, payload);
       onSuccess();
     } catch (error: any) {
       console.error(error);

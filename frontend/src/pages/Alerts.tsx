@@ -1,12 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react"
 import { getAlerts, markAlertAsRead, clearReadAlerts} from "../service/alert.api";
 import type {Alert} from '../types/alerts';
 import "../styles/alerts.css";
 
 export default function Alerts() {
-  const { request } = useApi();
-  const apiObj = { request }; 
+// On récupère getToken directement depuis Clerk
+  const { getToken } = useAuth();
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"ALL" | "UNREAD">("ALL");
@@ -14,8 +14,9 @@ export default function Alerts() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const data = await getAlerts(apiObj);
-      setAlerts(data);
+      const data = await getAlerts(getToken);
+      console.log("Données reçues du serveur :", data);
+      setAlerts(data|| []);
     } catch (error) {
       console.error("Erreur lors du chargement des alertes", error);
     } finally {
@@ -25,7 +26,7 @@ export default function Alerts() {
 
   useEffect(() => {
     loadData();
-  }, [request]);
+  }, [getToken]);
 
   // Filtrage des alertes selon le choix de l'utilisateur
   const filteredAlerts = useMemo(() => {
@@ -35,7 +36,7 @@ export default function Alerts() {
 
   const handleMarkAsRead = async (id: string) => {
     try {
-      await markAlertAsRead(apiObj, id);
+      await markAlertAsRead(getToken, id);
       setAlerts(prev => prev.map(a => a.id === id ? { ...a, read: true } : a));
     } catch (error) {
       alert("Erreur lors de la mise à jour.");
@@ -48,7 +49,7 @@ export default function Alerts() {
 
     if (window.confirm("Voulez-vous supprimer définitivement toutes les alertes lues ?")) {
       try {
-        await clearReadAlerts(apiObj);
+        await clearReadAlerts(getToken);
         setAlerts(prev => prev.filter(a => !a.read));
       } catch (error) {
         alert("Erreur lors du nettoyage.");

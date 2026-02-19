@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 import { getDeadlines, updateDeadlineStatus, deleteDeadline } from "../service/deadline.api";
 import type { Deadline } from "../types/deadlines";
 import AddDeadlineForm from "../components/AddDeadlineForm";
@@ -8,8 +8,7 @@ import "../styles/obligations.css";
 type SortOption = "date" | "priority";
 
 export default function Obligations() {
-  const { request } = useApi();
-  const apiObj = { request };
+  const { getToken } = useAuth();
   const [deadlines, setDeadlines] = useState<Deadline[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +20,7 @@ export default function Obligations() {
   const fetchDeadlines = async () => {
     try {
       setLoading(true);
-      const data = await getDeadlines(apiObj);
+      const data = await getDeadlines(getToken);
       setDeadlines(data);
     } catch (error) {
       console.error("Erreur chargement:", error);
@@ -33,7 +32,7 @@ export default function Obligations() {
   // Recharger les données au montage du composant
   useEffect(() => {
     fetchDeadlines();
-  }, [request]);
+  }, [getToken]);
 
   // LOGIQUE DE FILTRAGE + TRI
   const processedDeadlines = useMemo(() => {
@@ -63,7 +62,7 @@ export default function Obligations() {
 
     const newStatus = currentStatus === "PENDING" ? "COMPLETED" : "PENDING";
     try {
-      await updateDeadlineStatus(apiObj, id, newStatus);
+      await updateDeadlineStatus(getToken, id, newStatus);
       // Mise à jour locale de l'état
       setDeadlines(prev => prev.map(d => 
         d.id === id ? { ...d, status: newStatus as any } : d
@@ -80,7 +79,7 @@ export default function Obligations() {
     }
     if (!window.confirm("Supprimer cette échéance ?")) return;
     try {
-      await deleteDeadline(apiObj, id);
+      await deleteDeadline(getToken, id);
       setDeadlines(prev => prev.filter(d => d.id !== id));
     } catch (error) {
       alert("Erreur lors de la suppression.");

@@ -1,12 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useApi, API_BASE_URL } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 import { getClientById, updateClient } from "../service/client.api";
 import { getClientDocuments } from "../service/document.api";
 import FileUploader from "../components/FileUploader";
 import AddDeadlineForm from "../components/AddDeadlineForm";
 
 import '../styles/clientDetails.css';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 type TabType = "overview" | "obligations" | "documents";
 
@@ -24,13 +26,14 @@ interface EditClientForm {
 export default function ClientDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { request } = useApi();
-  const apiObj = { request }; 
+  const { getToken } = useAuth();
+ 
   
   const [client, setClient] = useState<any>(null);
   const [documents, setDocuments] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [showNas, setShowNas] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // Modale Obligation
   const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Modale Profil
 
@@ -48,7 +51,8 @@ export default function ClientDetails() {
   const loadData = useCallback(async () => {
     if (!id) return;
     try {
-      const clientData = await getClientById(apiObj, id);
+      setLoading(true);
+      const clientData = await getClientById(getToken, id);
       setClient(clientData);
       
       // On pré-remplit les champs de modification avec les données actuelles
@@ -62,12 +66,12 @@ export default function ClientDetails() {
         status: clientData.status as "ACTIVE" | "INACTIVE"
       });
       
-      const docsData = await getClientDocuments(apiObj, id);
+      const docsData = await getClientDocuments(getToken, id);
       setDocuments(Array.isArray(docsData) ? docsData : docsData.documents || []);
     } catch (err) {
       console.error("Erreur lors du chargement des données:", err);
     }
-  }, [id, request]);
+  }, [id, getToken]);
 
   useEffect(() => {
     loadData();
@@ -78,7 +82,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
   try {
     // 1. On envoie TOUT l'objet editFormData (qui contient le status) au backend
     // Le backend verra le changement de status et déclenchera la transaction Prisma
-    await updateClient(apiObj, id!, editFormData);
+    await updateClient(getToken, id!, editFormData);
 
     setIsEditModalOpen(false);
     
@@ -93,17 +97,15 @@ const handleEditSubmit = async (e: React.FormEvent) => {
   }
 };
 
-  if (!client) return <div className="loader-container">Chargement du dossier client...</div>;
-
-  const formatNas = (nas: string) => {
-    if (!nas) return "N/A";
-    return showNas ? nas : `***-***-${nas.slice(-3)}`;
-  };
-
   const handleDeleteDoc = async (docId: string) => {
-    if (!window.confirm("Voulez-vous vraiment supprimer ce document ?")) return;
+    if (!window.confirm("Supprimer ce document ?")) return;
     try {
-      await request(`/documents/${docId}`,{ method: 'DELETE' });
+      const token = await getToken();
+      const response = await fetch(`${API_BASE_URL}/documents/${docId}`, { 
+        method: 'DELETE',
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error();
       loadData();
     } catch (err) { alert("Erreur lors de la suppression."); }
   };
@@ -111,9 +113,22 @@ const handleEditSubmit = async (e: React.FormEvent) => {
   const handleDeleteDeadline = async (deadlineId: string) => {
     if (!window.confirm("Supprimer cette obligation fiscale ?")) return;
     try {
-      await request(`/deadlines/${deadlineId}`, { method: 'DELETE' });
+      const token = await getToken();
+      const response = await fetch(`${API_BASE_URL}/deadlines/${deadlineId}`, { 
+        method: 'DELETE',
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error();
       loadData();
     } catch (err) { alert("Erreur lors de la suppression."); }
+  };
+  
+  if (loading && !client) return <div className="loader-container">Chargement...</div>;
+  if (!client) return <div className="error">Client introuvable.</div>;
+
+  const formatNas = (nas: string) => {
+    if (!nas) return "N/A";
+    return showNas ? nas : `***-***-${nas.slice(-3)}`;
   };
 
   return (

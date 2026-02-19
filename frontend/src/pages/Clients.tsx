@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "@clerk/clerk-react";
 import { getClients, updateClient, deleteClient } from "../service/client.api"; // Importe updateClient
 import "../styles/clients.css";
 
@@ -8,14 +8,14 @@ export default function Clients() {
   const [clients, setClients] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const { request } = useApi();
-  const apiObj = { request };
+
+  const { getToken } = useAuth();
   const navigate = useNavigate();
 
 // 1. Chargement des données
   const fetchClients = async () => {
     try {
-      const data = await getClients(apiObj);
+      const data = await getClients(getToken);
       setClients(data);
     } catch (error) {
       console.error("Erreur lors du chargement des clients:", error);
@@ -26,7 +26,7 @@ export default function Clients() {
 
   useEffect(() => {
     fetchClients();
-  }, [request]);
+  }, [getToken]);
 
   // 2. Changer le statut (Active / Inactive)
   const handleToggleStatus = async (e: React.MouseEvent, client: any) => {
@@ -36,7 +36,7 @@ export default function Clients() {
     
     try {
       // Appel API : PUT /api/clients/:id avec { status: "..." }
-      await updateClient(apiObj, client.id, { status: newStatus });
+      await updateClient(getToken, client.id, { status: newStatus });
       
       // Mise à jour de l'état local pour un feedback visuel immédiat
       setClients(prev => prev.map(c => 
@@ -54,7 +54,7 @@ export default function Clients() {
     if (!window.confirm("Supprimer ce client définitivement ?")) return;
 
     try {
-      await deleteClient(apiObj, id);
+      await deleteClient(getToken, id);
       setClients(prev => prev.filter(c => c.id !== id));
     } catch (error) {
       alert("Erreur lors de la suppression");
