@@ -15,7 +15,7 @@ export const getDocuments = async (req: Request, res: Response) => {
 export const getDocumentsByClientId = async (req: Request, res: Response) => {
   const { clientId } = req.params;
   const clerkUserId = req.auth!.userId;
-
+  
   if (!clientId) {
     return res.status(400).json({ message: "Client ID requis" });
   }
@@ -39,6 +39,8 @@ export const uploadDocument = async (req: Request, res: Response) => {
     if (!file) {
       return res.status(400).json({ message: "Aucun fichier téléchargé" });
     }
+    // Si tu utilises diskStorage, le binaire n'est pas dans req.file, il faut le lire :
+    const fileBuffer = fs.readFileSync(file.path);
 
     const newDocument = await prisma.document.create({
       data: {
@@ -46,6 +48,7 @@ export const uploadDocument = async (req: Request, res: Response) => {
         type: file.mimetype,
         size: file.size,
         filePath: file.path, // Chemin local ou URL Cloud
+        fileContent: fileBuffer,
         status: 'PENDING',
         clientId,
         userId: clerkUserId,
@@ -91,6 +94,14 @@ export const downloadDocument = async (req: Request, res: Response) => {
 
   if (!document) return res.status(404).json({ message: "Document non trouvé" });
 
+  // 1. Priorité au fichier binaire en base de données (Neon)
+  if (document.fileContent) {
+    res.setHeader('Content-Type', document.type || 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${document.name}"`);
+    return res.send(document.fileContent);
+  }
+
+  // 2. Si le binaire est vide (vieux docs), on tente le fichier local
   const filePath = path.resolve(document.filePath);
 
   if (fs.existsSync(filePath)) {

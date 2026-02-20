@@ -58,6 +58,7 @@ model Document {
   type       String
   size       Int
   filePath   String
+  fileContent Bytes?
   status     DocumentStatus @default(PENDING)
   uploadedAt DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
