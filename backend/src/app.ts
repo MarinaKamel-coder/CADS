@@ -20,12 +20,30 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const app = express();
 
-// Configuration CORS unique et solide
+// Configuration CORS flexible et robuste
 const corsOptions = {
-  origin: ["https://cads-murex.vercel.app", "http://localhost:5173"],
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    const allowedOrigins = [
+      "https://cads-murex.vercel.app",
+      "https://cads-backend.vercel.app",
+      "https://cads-ieog.vercel.app",
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "http://127.0.0.1:5173",
+      "http://127.0.0.1:3000"
+    ];
+    
+    // En développement, accepter toutes les requêtes sans origin (mobile, etc)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
