@@ -1,114 +1,39 @@
-/* .clients-page-container { padding: 30px; }
+/* Container Principal */
+.clients-page { 
+  padding: 30px; 
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-.clients-header-actions {
+/* Header & Actions */
+.clients-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
 }
 
-.search-input {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-right: 15px;
-  width: 250px;
-}
-
-.clients-table-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  overflow: hidden;
-}
-
-.clients-list-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.clients-list-table th {
-  background: #f4f7f6;
-  padding: 15px;
-  text-align: left;
-  font-weight: 600;
-  color: #4a5568;
-}
-
-.client-row {
-  border-bottom: 1px solid #edf2f7;
-  transition: background 0.2s;
-  cursor: pointer;
-}
-
-.client-row:hover { background: #f8fafc; }
-
-.status-toggle-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 100px;
-}
-
-/* Style quand Actif */
-.status-toggle-btn.active {
-  background: #dcfce7;
-  color: #166534;
-  border-color: #bbf7d0;
-}
-
-.status-toggle-btn.active:hover {
-  background: #fecaca; /* Devient rouge clair au survol pour suggérer la désactivation */
-  color: #991b1b;
-  border-color: #fca5a5;
-}
-
-/* Style quand Inactif */
-.status-toggle-btn.inactive {
-  background: #f1f5f9;
-  color: #64748b;
-  border-color: #e2e8f0;
-}
-
-.status-toggle-btn.inactive:hover {
-  background: #dcfce7; /* Devient vert clair au survol pour suggérer l'activation */
-  color: #166534;
-  border-color: #bbf7d0;
-}
-
-.btn-add-client {
-  background: #2b6cb0;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-} */
-
-.clients-page { padding: 10px; }
-
-.clients-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .search-bar {
-  padding: 8px 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  width: 250px;
+  padding: 10px 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid #e2e8f0;
+  width: 300px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
 }
 
+.search-bar:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 68, 0, 0.1);
+}
+
+/* Table Design */
 .table-container {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #edf2f7;
   overflow: hidden;
 }
 
@@ -116,50 +41,82 @@
   width: 100%;
   border-collapse: collapse;
 }
-
 .clients-table th {
   background: #f8fafc;
-  padding: 15px;
+  padding: 16px;
   text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
   color: #64748b;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #edf2f7;
+}
+.clients-table td {
+  padding: 16px;
+  vertical-align: middle;
+}
+.client-row {
+  border-bottom: 1px solid #edf2f7;
+  transition: background-color 0.2s ease;
+}
+
+.client-row:last-child {
+  border-bottom: none;
 }
 
 .client-row:hover {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   cursor: pointer;
 }
+.client-name {
+  font-weight: 600;
+  color: #1a202c;
+}
 
+.client-email {
+  font-size: 0.85rem;
+  color: #718096;
+}
 /* BOUTON DE STATUT INTERACTIF */
 .status-btn {
-  border: none;
-  padding: 6px 12px;
+  border: 1px solid transparent;
+  padding: 6px 14px;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.1s, background 0.2s;
-  min-width: 90px;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  text-transform: uppercase;
 }
 
-.status-btn:active { transform: scale(0.95); }
+.status-btn:active { transform: scale(0.96); }
 
 .status-btn.active {
   background: #dcfce7;
   color: #166534;
+  border-color: #bbf7d0;
 }
 
 .status-btn.inactive {
   background: #fee2e2;
   color: #991b1b;
+  border-color: #fca5a5;
 }
 
 .delete-icon-btn {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
-  padding: 5px;
-  border-radius: 4px;
+  font-size: 1.2rem;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  color: #94a3b8; 
 }
 
-.delete-icon-btn:hover { background: #fff5f5; }
+.delete-icon-btn:hover { 
+  background: #fee2e2; 
+  color: #e53e3e;
+  transform: rotate(10deg);
+}

@@ -87,7 +87,6 @@ const handleEditSubmit = async (e: React.FormEvent) => {
     setIsEditModalOpen(false);
     
     // 2. On recharge les données : le client ET ses deadlines seront à jour 
-    // car le backend a modifié les deux en une seule transaction.
     await loadData(); 
     
     alert("Le profil et les obligations ont été synchronisés avec succès !");
@@ -188,9 +187,8 @@ const handleEditSubmit = async (e: React.FormEvent) => {
           <div className={`obligations-view ${client.status === "INACTIVE" ? "client-is-inactive" : ""}`}>
             <div className="section-header">
               <h3>Calendrier</h3>
-              {/* On désactive le bouton d'ajout si le client est inactif */}
               <button 
-                className="btn-primary-small" 
+                className="ajouterDeadline-btn" 
                 onClick={() => setIsModalOpen(true)}
                 disabled={client.status === "INACTIVE"}
               >
@@ -270,6 +268,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>Modifier le profil client</h3>
+            <button className="close-btn" onClick={() => setIsEditModalOpen(false)}>&times;</button>
             <form onSubmit={handleEditSubmit} className="edit-form">
               <div className="form-grid">
                 <div className="form-group">
@@ -318,6 +317,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
+            <button className="close-btn" onClick={() => setIsModalOpen(false)}>&times;</button>
             <AddDeadlineForm clientId={id} onSuccess={() => { loadData(); setIsModalOpen(false); }} onCancel={() => setIsModalOpen(false)} />
           </div>
         </div>

@@ -127,7 +127,6 @@ export default function Dashboard() {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>Nouveau Dossier Client</h3>
               <button className="close-btn" onClick={() => setOpenAddClient(false)}>&times;</button>
             </div>
             <AddClientForm
@@ -135,12 +134,8 @@ export default function Dashboard() {
                 setOpenAddClient(false);
                 fetchClients(); 
               }}
+              onCancel={() => setOpenAddClient(false)}
             />
-            <div className="modal-footer">
-              <button className="secondary-btn" onClick={() => setOpenAddClient(false)}>
-                Annuler
-              </button>
-            </div>
           </div>
         </div>
       )}

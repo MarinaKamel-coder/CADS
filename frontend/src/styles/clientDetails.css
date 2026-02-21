@@ -9,6 +9,14 @@
   margin-bottom: 2rem; 
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
 .back-btn { 
   background: none; 
   border: none; 
@@ -157,25 +165,6 @@
 .deadline-item.high { border-left-color: #ef4444; }
 .deadline-item.medium { border-left-color: #f59e0b; }
 
-/* --- MODALES (Structure commune) --- */
-.modal-overlay {
-  position: fixed; 
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  z-index: 1000;
-}
-
-.modal-content { 
-  background: white; 
-  padding: 2rem; 
-  border-radius: 12px; 
-  width: 100%;
-  max-width: 600px; /* Largeur augmentée pour les 2 colonnes */
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
-}
 
 /* --- FORMULAIRE D'ÉDITION (2 Colonnes) --- */
 .edit-form {
@@ -233,27 +222,6 @@
   padding-top: 1.5rem;
   border-top: 1px solid #f1f5f9;
 }
-
-.primary-btn {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.secondary-btn {
-  background: white;
-  color: #475569;
-  border: 1px solid #cbd5e1;
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
 .client-is-inactive .deadlines-list {
   opacity: 0.7;
   pointer-events: none; /* Empêche tout clic sur la liste */

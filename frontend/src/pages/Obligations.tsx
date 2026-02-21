@@ -113,7 +113,7 @@ export default function Obligations() {
             <button className="refresh-btn" onClick={fetchDeadlines} title="Actualiser">🔄</button>
           </div>
         </div>
-        <button className="primary-btn" onClick={() => setIsModalOpen(true)}>+ Ajouter</button>
+        <button className="ajouterDeadline-btn" onClick={() => setIsModalOpen(true)}>+ Ajouter</button>
       </header>
 
       <div className="table-card">
@@ -186,6 +186,7 @@ export default function Obligations() {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
+            <button className="close-btn" onClick={() => setIsModalOpen(false)}>&times;</button>
             <AddDeadlineForm 
               onSuccess={() => { setIsModalOpen(false); fetchDeadlines(); }}
               onCancel={() => setIsModalOpen(false)}

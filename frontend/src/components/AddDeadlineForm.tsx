@@ -53,8 +53,6 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
   return (
     <form onSubmit={handleSubmit} className="add-deadline-form">
       <h3>Nouvelle Obligation</h3>
-      
-      {/* Affiche la sélection seulement si on n'est pas sur une fiche client précise */}
       {!clientId && (
         <div className="form-group">
           <label>Client</label>
@@ -132,8 +130,8 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
       </div>
 
       <div className="form-actions">
-        <button type="button" onClick={onCancel} className="cancel-btn">Annuler</button>
-        <button type="submit" disabled={loading} className="submit-btn">
+        <button type="button" onClick={onCancel} className="secondary-btn">Annuler</button>
+        <button type="submit" disabled={loading} className="primary-btn">
           {loading ? "Enregistrement..." : "Créer l'échéance"}
         </button>
       </div>

@@ -10,7 +10,7 @@ export default function Topbar({ onAddClient }: TopbarProps) {
       <div className="topbar-actions">
         <input placeholder="Rechercher..." />
         <button
-          className="primary-btn"
+          className="ajoutClient-btn"
           onClick={onAddClient}
         >
           + Ajouter un client

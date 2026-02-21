@@ -3,105 +3,112 @@
   display: flex;
   height: 100vh;
   width: 100vw;
-  background: #f1f5f9; 
+  background: #f8fafc; /* Un gris-bleu plus léger pour le contraste */
   overflow: hidden;
 }
 
 /* Sidebar moderne */
 .sidebar {
   width: 260px;
-  background: #1e293b; 
+  background: #0f172a; /* Bleu plus profond pour un look premium */
   color: white;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
   z-index: 100;
 }
 
 /* Logo container */
 .sidebar-logo {
-  padding-top: 2rem;    
-  padding-bottom: 1rem; 
+  padding: 2.5rem 1rem 1.5rem;
   display: flex;
   justify-content: center; 
   align-items: center;
-  width: 100%;
 }
 
 .sidebar-logo-img {
-  width: 220px; 
+  width: 100%;
+  max-width: 180px; 
   height: auto;
-  max-height: 150px; 
   object-fit: contain;
-  filter: drop-shadow(0 0 15px rgba(130, 207, 240, 0.767));
-  transition: transform 0.3s ease;
-  display: block;
+  /* Glow plus doux pour ne pas fatiguer l'oeil */
+  filter: drop-shadow(0 4px 10px rgba(130, 207, 240, 0.3));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .sidebar-logo-img:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px) scale(1.02);
 }
 
-/* Navigation - Ajustement pour laisser de la place au logo */
+/* Navigation */
 .sidebar-nav {
   margin-top: 1rem; 
   display: flex;
   flex-direction: column;
-  padding: 0 0.8rem;
-  gap: 4px;
+  padding: 0 0.75rem;
+  gap: 6px; /* Plus d'espace entre les liens */
 }
 
 .sidebar-nav a {
-  padding: 0.8rem 1.2rem;
-  color: #94a3b8; /* Texte discret par défaut */
+  padding: 0.75rem 1rem;
+  color: #94a3b8;
   text-decoration: none;
   display: flex;
   align-items: center;
-  border-radius: 8px;
+  gap: 12px; /* Espace pour les icônes */
+  border-radius: 10px;
   font-weight: 500;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
 /* État Hover */
 .sidebar-nav a:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   color: #f8fafc;
-  font-style: none;
 }
 
-/* État Actif (La page où on se trouve) */
+/* État Actif */
 .sidebar-nav a.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #ff8c32; /* Ta couleur CADS */
-  font-weight: bold;
+  background: rgba(255, 140, 50, 0.15); /* Teinte légère de ta couleur accent */
+  color: #ff8c32; /* Ta couleur CADS */
+  border-left: 3px solid #ff8c32;
+  font-weight: 600;
 }
 
-/* Footer Sidebar (Clerk UserButton)  */
+/* Footer Sidebar (Clerk UserButton) */
 .sidebar-footer {
   margin-top: auto;
-  padding: 1.2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.4);
+  padding: 1.5rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
-  justify-content: flex-start; 
+  gap: 12px;
 }
 
-
-.cl-userButtonOuterIdentifier {
-  color: #ffffff !important;
-}
 /* Zone principale */
 .app-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .app-content {
-  padding: 2rem;
+  padding: 2.5rem;
   max-width: 1400px; 
   margin: 0 auto;
   width: 100%;
+}
+
+
+.cl-userButtonBox {
+  flex-direction: row-reverse; 
+}
+
+.cl-userButtonOuterIdentifier {
+  color: #cbd5e1 !important;
+  font-weight: 500 !important;
 }

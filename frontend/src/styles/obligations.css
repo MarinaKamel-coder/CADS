@@ -4,10 +4,18 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+.obligations-table tbody tr:hover {
+  background-color: #fcfcfd;
+  transition: background-color 0.2s ease;
+}
 
 /* Header & Controls */
 .page-header {
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
 }
 
 .header-main {
@@ -131,16 +139,15 @@
 
 .text-danger { color: #e53e3e; font-weight: bold; }
 
-.badge-error {
-  display: inline-block;
-  font-size: 0.65rem;
-  background: #fee2e2;
-  color: #b91c1c;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 800;
-  margin-left: 8px;
-  border: 1px solid #f87171;
+.badge-error, .badge-inactive {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  vertical-align: middle;
+  font-size: 0.6rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 2px; 
 }
 
 /* Badges Priorité */
@@ -187,40 +194,32 @@
 }
 .btn-icon:hover { background: #fee2e2; }
 
-/* Modale */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.4);;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-/* Boutons Globaux */
-.primary-btn {
-  background: #3182ce;
-  color: white;
+.ajouterDeadline-btn {
+  background-color: var(--accent) !important; 
+  color: #ffffff !important;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius-md);
   font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(255, 68, 0, 0.2); 
 }
 
-.primary-btn:hover {
-  background: #2b6cb0;
+.ajouterDeadline-btn:hover {
+  background-color: #38e879 !important; 
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 12px rgba(83, 223, 134, 0.3);
 }
+
+.ajouterDeadline-btn:active {
+  transform: translateY(0);
+}
+
 
 .empty {
   text-align: center;
@@ -240,15 +239,6 @@
   opacity: 0.5;
 }
 
-.badge-inactive {
-  background: #cbd5e1;
-  color: #475569;
-  font-size: 0.65rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 8px;
-  font-weight: bold;
-}
 
 /* Bouton verrouillé */
 .status-btn.inactive {
@@ -261,4 +251,8 @@
 /* On barre le texte pour les lignes complétées ou inactives si nécessaire */
 .row-completed .info-cell strong, .row-inactive .info-cell strong {
   text-decoration: none; /* À toi de voir si tu veux barrer l'inactif */
+}
+
+.row-inactive:hover, .row-completed:hover {
+  background-color: inherit;
 }

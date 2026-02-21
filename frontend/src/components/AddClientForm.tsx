@@ -5,10 +5,15 @@ import { createClient } from "../service/client.api";
 import '../styles/components.css';
 import '../styles/variables.css';
 
-export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) {
+interface AddClientFormProps {
+  onSuccess: () => void;
+  onCancel: () => void;
+}
+
+export default function AddClientForm({ onSuccess, onCancel }: AddClientFormProps) {
   const { getToken } = useAuth();
-  const [loading, setLoading] = useState(false); // État pour gérer l'attente
-  const [error, setError] = useState<string | null>(null); // État pour afficher les erreurs UI
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null); 
   const [form, setForm] = useState<ClientForm>({
     firstName: "",
     lastName: "",
@@ -107,9 +112,14 @@ export default function AddClientForm({ onSuccess }: { onSuccess: () => void }) 
       </select>
     </div>
 
-    <button type="submit" disabled={loading} className="primary-btn">
-      {loading ? "Enregistrement..." : "Confirmer l'ajout"}
-    </button>
+    <div className="form-actions">
+      <button type="submit" disabled={loading} className="primary-btn">
+        {loading ? "Enregistrement..." : "Confirmer l'ajout"}
+      </button>
+      <button className="secondary-btn" onClick={onCancel} disabled={loading}>
+        Annuler
+      </button>
+    </div>
   </form>
   );
 }
