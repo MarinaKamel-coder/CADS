@@ -7,62 +7,121 @@ CADS est une solution de gestion comptable centralisée conçue pour automatiser
 
 **Lien GitHub :** ["https://github.com/MarinaKamel-coder/CADS.git"]
 
+## 📸 Aperçu et Documentation
+
+Pour faciliter l'évaluation, les documents et captures d'écran suivants sont mis à votre disposition :
+
+### 🖼️ Captures d'écran
+
+Vous trouverez dans le dossier `/Screenshots` :
+
+  **Interface du site** : Aperçus du Tableau de bord, de la liste des Clients, des Documents, des Alerts et des Obligations (en modes Clair et Sombre).
+  **Historique Git** : des captures visuelle de l'historique des commits démontrant la progression structurée du développement.
+
+### 📄 Rapport Technique
+
+Le rapport technique complet au format PDF (`CADS_Rapportdocx.pdf`) est disponible à la **racine du projet**. Il détaille :
+
+1. L'architecture globale.
+2. L'implémentation de l'authentification avec Clerk.
+3. Les défis techniques rencontrés.
+4. Les pistes d'amélioration.
+
 ## 🏗️ Architecture du Projet
 
 ### Technologies utilisées
 
-* **Frontend :** React 18, Vite, Recharts (Stats).
-* **Backend :** Node.js, Express, TypeScript.
-* **Base de données :** PostgreSQL (via Neon.tech), Prisma ORM.
-* **Sécurité :** Clerk Auth (Authentification JWT)
+**Frontend :** React 18, Vite, Recharts (Stats).
+**Backend :** Node.js, Express, TypeScript.
+**Base de données :** PostgreSQL (via Neon.tech), Prisma ORM.
+**Sécurité :** Clerk Auth (Authentification JWT)
 
 ---
 
 ## 🎨 Fonctionnalités Frontend
 
-Sidebar Pro : Navigation avec logo transparent et intégration Clerk.
+**Sidebar Intelligente :** Navigation ergonomique avec logo optimisé, gestion du Dark Mode et intégration du profil utilisateur via Clerk.
 
-Dashboard : Vue d'ensemble avec cartes de statistiques en temps réel.
+**Tableau de Bord (Dashboard) :** Vue d'ensemble interactive avec des cartes de statistiques calculées en temps réel (obligations urgentes, clients actifs).
 
-Gestion Clients : Formulaire d'ajout moderne (modale floue) avec pastilles de statut (Actif/Inactif).
+**Gestion des Clients :** Interface de gestion complète avec formulaires modernes (modales avec effet glassmorphism) et indicateurs de statut dynamiques
 
-Alertes : Système de notification visuel par priorité (Rouge, Orange, Bleu).
+**Obligations & Échéanciers :**  Suivi précis des dates limites fiscales et administratives, classées par type (Fédéral, Provincial, Municipal) pour une organisation optimale.
 
-Téléchargement et visualisation de documents.
+**Gestion Documentaire :**  Module centralisé permettant le dépôt (upload), la visualisation et l'organisation des documents comptables pour chaque client.
+
+**Système d'Alertes :** Monitoring visuel des priorités avec code couleur sémantique :
+
+🔴 Haute : Échéances immédiates ou en retard.
+
+🟠 Moyenne : Actions requises sous peu.
+
+🔵 Basse : Informations et rappels de routine.
 
 ---
 
 ## 🗄️ Structure de la Base de Données
 
-L'application repose sur un schéma relationnel optimisé :
+L'application s'appuie sur PostgreSQL (via Neon) avec un schéma relationnel robuste géré par Prisma :
 
-Clients : Informations signalétiques, contacts et NAS (crypté).
+**Utilisateurs (Users) :** Synchronisation sécurisée avec les identifiants de session Clerk (ID unique, rôle, informations de profil).
 
-Alertes (Alerts) : Système de monitoring des échéances.
+**Clients :** Base de données centrale regroupant les informations signalétiques, les contacts et le NAS (Numéro d'Assurance Sociale).
 
-INFO : Rappel de routine.
+**Obligations (Deadlines) :** Modèle gérant les échéances (dueDate), le niveau de priorité (LOW, MEDIUM, HIGH) et le type de juridiction fiscale.
 
-Users : Liaison avec les identifiants de session Clerk.
+**Documents :** Stockage des métadonnées des fichiers (nom, type, chemin d'accès) avec un lien direct vers le client et le comptable propriétaire.
 
----
+**Alertes (Alerts) :** Système de notifications automatisées basé sur les échéances critiques et l'état des dossiers.
 
 ## 4. Variables d'environnement
 
-=================================================================================
+| Variable | Description |
+| :--- | :--- |
+| `DATABASE_URL` | Lien de connexion PostgreSQL (Neon) |
+| `CLERK_PUBLISHABLE_KEY` | Clé publique pour l'authentification Frontend |
+| `CLERK_SECRET_KEY` | Clé secrète pour valider les jetons côté Backend |
+| `PORT` | Port du serveur (3000) |
 
-Variable                                     Description
+## 🧪 Tests API avec test.rest
 
-================================================================================
+Pour tester le Backend sans passer par l'interface, nous utilisons l'extension REST Client de VS Code. Comme le backend est sécurisé par Clerk, chaque requête nécessite un jeton (Token).
 
-DATABASE_URL                           Lien de connexion PostgreSQL (Neon)
+Comment obtenir le Token ?
 
-CLERK_PUBLISHABLE_KEY            Clé publique pour l'authentification Frontend
+1. Connectez-vous sur le frontend (`http://localhost:5173`).
 
-CLERK_SECRET_KEY                 Clé secrète pour valider les jetons côté Backend
+2. Ouvrez l'inspecteur du navigateur (F12) -> Onglet Network.
 
-PORT                                       Port du serveur (3000)
+3. Cliquez sur une requête API sortante.
 
-=================================================================================
+4. Copiez la valeur du header Authorization (Bearer eyJ...).
+
+@baseUrl = `http://localhost:3000`
+@token = VOTRE_TOKEN_BEARER_ICI
+
+### Récupérer les clients
+
+GET {{baseUrl}}/api/clients
+Authorization: Bearer {{token}}
+
+### Récupérer les alertes actives
+
+GET {{baseUrl}}/api/alerts
+Authorization: Bearer {{token}}
+
+### Ajouter un client
+
+POST {{baseUrl}}/api/clients
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "Jean",
+  "lastName": "Tremblay",
+  "email": `jean.t@example.com`,
+  "status": "ACTIVE"
+}
 
 ## 🔐 Accès pour l'évaluation
 
@@ -94,7 +153,7 @@ npm run dev
 
 ```
 
-### 3. Lancer le Frontend 
+### 3. Lancer le Frontend
 
 ```Bash
 
@@ -104,45 +163,5 @@ npm run dev
 
 
 ```
-
-## 🧪 Tests API avec test.rest
-
-Pour tester le Backend sans passer par l'interface, nous utilisons l'extension REST Client de VS Code. Comme le backend est sécurisé par Clerk, chaque requête nécessite un jeton (Token).
-
-Comment obtenir le Token ?
-
-1. Connectez-vous sur le frontend (http://localhost:5173).
-
-2. Ouvrez l'inspecteur du navigateur (F12) -> Onglet Network.
-
-3. Cliquez sur une requête API sortante.
-
-4. Copiez la valeur du header Authorization (Bearer eyJ...).
-
-@baseUrl = http://localhost:3000
-@token = VOTRE_TOKEN_BEARER_ICI
-
-### Récupérer les clients
-
-GET {{baseUrl}}/api/clients
-Authorization: Bearer {{token}}
-
-### Récupérer les alertes actives
-
-GET {{baseUrl}}/api/alerts
-Authorization: Bearer {{token}}
-
-### Ajouter un client
-
-POST {{baseUrl}}/api/clients
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "firstName": "Jean",
-  "lastName": "Tremblay",
-  "email": `jean.t@example.com`,
-  "status": "ACTIVE"
-}
 
 © 2026 CADS Project - Tous droits réservés.
