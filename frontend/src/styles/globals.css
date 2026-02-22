@@ -1,25 +1,109 @@
-/* Réinitialisation et styles globaux */
+/* --- RÉINITIALISATION & BASES --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
+html {
+  /* Permet une mise à l'échelle plus facile sur mobile */
+  font-size: 16px; 
 }
 
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* --- LIENS & INTERACTIONS --- */
 a {
   text-decoration: none;
-  color: #007bff;
+  color: var(--primary);
+  transition: color 0.2s ease;
 }
 
 a:hover {
   text-decoration: underline;
+  color: var(--primary-hover);
 }
 
 button {
   cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+  transition: all 0.2s ease;
+}
+
+/* --- COMPOSANTS COMMUNS --- */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-ui);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Utilitaires de texte */
+.text-muted { color: var(--text-muted); }
+.text-accent { color: var(--accent); }
+
+/* --- DARK MODE SPÉCIFIQUE --- */
+.dark-mode img {
+  filter: brightness(.8) contrast(1.2);
+}
+
+/* Gestion de la sélection */
+::selection {
+  background-color: var(--accent);
+  color: white;
+}
+
+/* --- RESPONSIVE DESIGN GLOBAL --- */
+
+/* Tablettes et Mobile */
+@media (max-width: 1024px) {
+  html { font-size: 15px; } /* Réduit légèrement la taille globale */
+  
+  .main-container {
+    padding: 1rem;
+  }
+}
+
+/* Smartphones */
+@media (max-width: 768px) {
+  html { font-size: 14px; }
+
+  /* On s'assure que les éléments ne dépassent pas */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Les marges et paddings deviennent plus compacts */
+  .card {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  /* Les grilles à plusieurs colonnes passent à une seule colonne */
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+}
+
+/* --- ACCESSIBILITÉ --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

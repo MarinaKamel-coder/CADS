@@ -1,8 +1,10 @@
 /* --- LAYOUT PRINCIPAL --- */
 .client-details-page { 
   padding: 2rem; 
-  background: #f8fafc; 
+  background: var(--bg-main); 
   min-height: 100vh; 
+  transition: background 0.3s ease;
+  color: var(--text-main);
 }
 
 .details-header { 
@@ -15,19 +17,23 @@
   align-items: center;
   margin-bottom: 2rem;
   padding: 1rem 0;
+  color: var(--text-main);
 }
 
 .back-btn { 
   background: none; 
   border: none; 
-  color: #64748b; 
+  color: var(--text-muted); 
   cursor: pointer; 
   margin-bottom: 1rem; 
   font-weight: 500; 
-  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
 }
 
-.back-btn:hover { color: #3b82f6; }
+.back-btn:hover { color: var(--accent); transform: translateX(-5px); }
 
 .header-content { 
   display: flex; 
@@ -38,7 +44,7 @@
 .title-section h1 { 
   font-size: 2.25rem; 
   margin: 0; 
-  color: #0f172a; 
+  color: var(--text-main); 
 }
 
 .meta-tags { 
@@ -56,38 +62,41 @@
   font-weight: 600; 
 }
 
-.status-badge.active { background: #dcfce7; color: #166534; }
-.status-badge.inactive { background: #fee2e2; color: #991b1b; }
+.status-badge.active { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+.status-badge.inactive { background: rgba(248, 113, 113, 0.2); color: #f87171; }
 
 .nas-badge { 
-  background: #f1f5f9; 
-  color: #475569; 
+  background: var(--bg-card); 
+  color: var(--text-muted); 
   padding: 4px 12px; 
   border-radius: 6px; 
   font-family: monospace; 
   cursor: pointer;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-ui);
 }
 
 /* --- NAVIGATION PAR ONGLETS --- */
 .details-tabs { 
   display: flex; 
   gap: 2rem; 
-  border-bottom: 2px solid #e2e8f0; 
+  border-bottom: 2px solid var(--border-ui); 
   margin-bottom: 2rem; 
+  overflow-x: auto; /* Scroll horizontal sur mobile */
 }
 
 .tab-item { 
   background: none; 
   border: none; 
   padding: 1rem 0; 
-  color: #64748b; 
+  color: var(--text-muted); 
   font-weight: 600; 
   cursor: pointer; 
   position: relative; 
+  white-space: nowrap;
+  transition: color 0.2s;
 }
 
-.tab-item.active { color: #3b82f6; }
+.tab-item.active { color: var(--accent); }
 .tab-item.active::after { 
   content: ''; 
   position: absolute; 
@@ -95,10 +104,10 @@
   left: 0; 
   right: 0; 
   height: 2px; 
-  background: #3b82f6; 
-}
+  background: var(--accent); 
+} 
 
-/* --- GRILLE D'INFORMATION (Vue d'ensemble) --- */
+/* --- GRILLE D'INFORMATION & STATS --- */
 .overview-grid { 
   display: grid; 
   grid-template-columns: 2fr 1fr; 
@@ -106,10 +115,11 @@
 }
 
 .info-card { 
-  background: white; 
+  background: var(--bg-card); 
   padding: 1.5rem; 
   border-radius: 12px; 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-ui);
 }
 
 .info-group { margin-bottom: 1.5rem; }
@@ -117,56 +127,75 @@
   display: block; 
   font-size: 0.75rem; 
   text-transform: uppercase; 
-  color: #94a3b8; 
+  color: var(--text-muted); 
   letter-spacing: 0.05em; 
   margin-bottom: 0.25rem; 
 }
-.info-group p { font-weight: 500; color: #1e293b; margin: 0; }
 
 .stats-row { display: flex; gap: 1rem; margin-top: 1rem; }
+
 .stat-item { 
   flex: 1; 
-  background: #f0f9ff; 
+  background: rgba(14, 165, 233, 0.1); /* Adaptation Dark Mode */
   padding: 1rem; 
   border-radius: 8px; 
   text-align: center; 
 }
-.stat-num { display: block; font-size: 1.5rem; font-weight: 700; color: #0369a1; }
-.stat-label { font-size: 0.75rem; color: #0ea5e9; }
+.stat-num { display: block; font-size: 1.5rem; font-weight: 700; color: #0ea5e9; }
+.stat-label { font-size: 0.75rem; color: #0ea5e9; opacity: 0.8; }
 
-/* --- DOCUMENTS --- */
+/* --- DOCUMENTS & OBLIGATIONS --- */
 .docs-grid { 
   display: grid; 
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
   gap: 1rem; 
 }
 
-.document-tile { 
-  background: white; 
+.document-tile, .deadline-item { 
+  background: var(--bg-card); 
   padding: 1rem; 
   border-radius: 8px; 
-  border: 1px solid #e2e8f0; 
+  border: 1px solid var(--border-ui); 
   display: flex; 
   align-items: center; 
-  gap: 1rem; 
+  gap: 1rem;
+  transition: transform 0.2s;
 }
 
-/* --- OBLIGATIONS & ÉCHÉANCES --- */
-.deadline-item {
-  display: flex; 
-  align-items: center; 
-  background: white; 
-  padding: 12px 20px;
-  border-radius: 10px; 
-  border: 1px solid #e2e8f0; 
-  border-left: 4px solid #cbd5e1;
-  margin-bottom: 10px;
-}
-.deadline-item.high { border-left-color: #ef4444; }
+.deadline-item { border-left: 4px solid var(--border-ui); }
+.deadline-item.high { border-left-color: var(--error); }
 .deadline-item.medium { border-left-color: #f59e0b; }
 
+/* --- ÉTAT INACTIF / VERROUILLÉ --- */
+.client-is-inactive .deadlines-list, 
+.client-is-inactive .docs-grid {
+  opacity: 0.7;
+  pointer-events: none;
+}
 
-/* --- FORMULAIRE D'ÉDITION (2 Colonnes) --- */
+.status-alert {
+  background: rgba(251, 146, 60, 0.1);
+  border: 1px solid rgba(251, 146, 60, 0.2);
+  color: #fb923c;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deadline-item.locked, .document-tile.locked {
+  background: var(--bg-main);
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  border-style: dashed;
+}
+
+/* --- FORMULAIRE D'ÉDITION --- */
 .edit-form {
   display: flex;
   flex-direction: column;
@@ -176,110 +205,60 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Deux colonnes */
+  grid-template-columns: 1fr 1fr;
   gap: 1rem 1.5rem;
 }
 
-.full-width {
-  grid-column: span 2;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
+.full-width { grid-column: span 2; }
 
 .form-group label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-muted);
 }
 
-.form-group input, 
-.form-group select {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #cbd5e1;
+.form-group input, .form-group select {
+  background: var(--bg-main);
+  border: 1px solid var(--border-ui);
+  color: var(--text-main);
+  padding: 0.75rem;
   border-radius: 8px;
-  font-size: 0.95rem;
-  color: #1e293b;
   transition: all 0.2s;
 }
 
-.form-group input:focus, 
-.form-group select:focus {
-  border-color: #3b82f6;
+.form-group input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 140, 50, 0.1);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* --- ACTIONS DU FORMULAIRE --- */
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #f1f5f9;
-}
-.client-is-inactive .deadlines-list {
-  opacity: 0.7;
-  pointer-events: none; /* Empêche tout clic sur la liste */
-}
-
-/* Alerte visuelle */
-.status-alert {
-  background: #fff7ed;
-  border: 1px solid #ffedd5;
-  color: #9a3412;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-/* Style des items verrouillés */
-.deadline-item.locked {
-  background: #f8fafc;
-  border-left-color: #cbd5e1 !important; /* Force le gris */
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
-/* Bouton Ajouter désactivé */
-button:disabled {
-  background-color: #e2e8f0 !important;
-  color: #94a3b8 !important;
-  cursor: not-allowed;
-  border-color: #e2e8f0 !important;
-}
-
-.document-tile.locked {
-  background: #f1f5f9;
-  border-style: dashed;
-  opacity: 0.8;
-}
-
-.document-tile.locked .file-name {
-  color: #64748b;
-}
-
-/* On s'assure que l'alerte est bien visible dans l'onglet documents */
-.documents-view .status-alert {
-  margin-top: 0;
-  margin-bottom: 2rem;
-  border-left: 4px solid #f97316;
+  border-top: 1px solid var(--border-ui);
 }
 
 /* --- RESPONSIVE --- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .overview-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .client-details-page { padding: 1rem; }
   .header-content { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .title-section h1 { font-size: 1.75rem; }
+  .meta-tags { flex-wrap: wrap; }
+  .details-tabs { gap: 1.25rem; }
 }
 
 @media (max-width: 600px) {
   .form-grid { grid-template-columns: 1fr; }
   .full-width { grid-column: span 1; }
-  .modal-content { width: 95%; padding: 1.5rem; }
+  .form-actions { flex-direction: column; }
+  .form-actions button { width: 100%; }
+  .stat-item { padding: 0.75rem; }
+  .stat-num { font-size: 1.25rem; }
 }

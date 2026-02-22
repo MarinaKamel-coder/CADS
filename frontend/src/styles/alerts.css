@@ -1,29 +1,219 @@
-.alerts-container { padding: 2rem; max-width: 900px; margin: 0 auto; }
-.alerts-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1.5rem; }
-.alerts-actions { display: flex; gap: 1rem; align-items: center; }
-
-.tabs { display: flex; background: #f1f5f9; padding: 4px; border-radius: 8px; }
-.tabs button { border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.2s; }
-.tabs button.active { background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #2563eb; }
-
-.alert-card {
-    display: flex; gap: 1rem; background: white; padding: 1.25rem; border-radius: 12px;
-    margin-bottom: 1rem; border: 1px solid #e2e8f0; transition: transform 0.2s;
+/* Container Principal */
+.alerts-container { 
+  padding: 2rem; 
+  max-width: 900px; 
+  margin: 0 auto; 
 }
-.alert-card.unread { border-left: 5px solid #3b82f6; background: #f8faff; }
-.alert-card.high.unread { border-left-color: #ef4444; }
-.alert-card.read { opacity: 0.7; }
 
-.alert-type-icon { font-size: 1.5rem; display: flex; align-items: center; }
-.alert-body { flex: 1; }
-.alert-body h3 { margin: 0 0 0.25rem 0; font-size: 1.1rem; }
-.alert-body p { margin: 0 0 0.75rem 0; color: #64748b; }
+/* Header & Navigation */
+.alerts-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+  margin-bottom: 2rem; 
+  border-bottom: 1px solid var(--border-ui); 
+  padding-bottom: 1.5rem; 
+  color: var(--text-main);
+}
 
-.alert-meta { display: flex; gap: 1rem; align-items: center; font-size: 0.85rem; }
-.priority-tag { padding: 2px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
-.priority-tag.high { background: #fee2e2; color: #ef4444; }
-.priority-tag.medium { background: #fef3c7; color: #d97706; }
-.priority-tag.low { background: #f1f5f9; color: #64748b; }
+.alerts-actions { 
+  display: flex; 
+  gap: 1rem; 
+  align-items: center; 
+}
 
-.btn-clear { background: none; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: #64748b; }
-.btn-clear:hover { background: #fff1f2; color: #e11d48; border-color: #fca5a5; }
+/* Système d'onglets (Tabs) */
+.tabs { 
+  display: flex; 
+  background: var(--bg-main); /* Gris clair en light, bleu nuit en dark */
+  padding: 4px; 
+  border-radius: 8px; 
+  border: 1px solid var(--border-ui);
+}
+
+.tabs button { 
+  border: none; 
+  background: none;
+  padding: 8px 16px; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  font-weight: 500; 
+  color: var(--text-muted);
+  transition: 0.2s; 
+}
+
+.tabs button.active { 
+  background: var(--bg-card); 
+  box-shadow: var(--shadow-sm); 
+  color: var(--accent); /* Utilise ton orange/accent pour l'onglet actif */
+}
+
+/* Cartes d'Alertes */
+.alert-card {
+    display: flex; 
+    gap: 1rem; 
+    background: var(--bg-card); 
+    padding: 1.25rem; 
+    border-radius: 12px;
+    margin-bottom: 1rem; 
+    border: 1px solid var(--border-ui); 
+    transition: all 0.2s ease;
+    color: var(--text-main);
+}
+
+.alert-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* État non lu (Unread) */
+.alert-card.unread { 
+    border-left: 5px solid var(--primary); /* Bleu par défaut */
+    background: rgba(79, 70, 229, 0.05); /* Teinte très légère */
+}
+
+.alert-card.high.unread { 
+    border-left-color: var(--error); 
+    background: rgba(239, 68, 68, 0.05); /* Teinte rouge très légère */
+}
+
+.alert-card.read { 
+    opacity: 0.6; 
+}
+
+/* Contenu de l'alerte */
+.alert-type-icon { 
+    font-size: 1.5rem; 
+    display: flex; 
+    align-items: center; 
+}
+
+.alert-body { 
+    flex: 1; 
+}
+
+.alert-body h3 { 
+    margin: 0 0 0.25rem 0; 
+    font-size: 1.1rem; 
+    color: var(--text-main);
+}
+
+.alert-body p { 
+    margin: 0 0 0.75rem 0; 
+    color: var(--text-muted); 
+}
+
+.alert-meta { 
+    display: flex; 
+    gap: 1rem; 
+    align-items: center; 
+    font-size: 0.85rem; 
+    color: var(--text-muted);
+}
+
+/* Tags de Priorité (Adaptés) */
+.priority-tag { 
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    font-size: 0.7rem;
+}
+
+.priority-tag.high { 
+    background: rgba(239, 68, 68, 0.2); 
+    color: #f87171; 
+}
+
+.priority-tag.medium { 
+    background: rgba(245, 158, 11, 0.2); 
+    color: #fbbf24; 
+}
+
+.priority-tag.low { 
+    background: var(--bg-main); 
+    color: var(--text-muted); 
+}
+
+/* Bouton Tout Effacer */
+.btn-clear { 
+    background: none; 
+    border: 1px solid var(--border-ui); 
+    padding: 8px 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-clear:hover { 
+    background: rgba(239, 68, 68, 0.1); 
+    color: var(--error); 
+    border-color: var(--error); 
+}
+
+/* --- RESPONSIVE ALERTS --- */
+
+@media (max-width: 768px) {
+    .alerts-container {
+        padding: 1rem; /* Moins d'espace perdu sur petit écran */
+    }
+
+    .alerts-header {
+        flex-direction: column; /* On empile le titre et les onglets */
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .alerts-actions {
+        width: 100%;
+        flex-direction: column-reverse; /* Les boutons passent sous les onglets */
+        align-items: stretch; /* Boutons pleine largeur */
+    }
+
+    .tabs {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .tabs button {
+        flex: 1; /* Chaque onglet prend une place égale */
+        text-align: center;
+        padding: 10px 5px;
+        font-size: 0.85rem;
+    }
+
+    .btn-clear {
+        text-align: center;
+        width: 100%;
+    }
+
+    .alert-card {
+        padding: 1rem;
+        position: relative;
+    }
+
+    .alert-meta {
+        flex-wrap: wrap; /* Les tags passent à la ligne si besoin */
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .alert-card {
+        flex-direction: column; /* L'icône passe au-dessus du texte pour gagner de la place */
+        gap: 0.75rem;
+    }
+
+    .alert-type-icon {
+        width: fit-content;
+        padding: 8px;
+        background: var(--bg-main);
+        border-radius: 8px;
+    }
+
+    .alert-body h3 {
+        font-size: 1rem;
+    }
+}

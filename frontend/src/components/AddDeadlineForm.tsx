@@ -130,10 +130,10 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
       </div>
 
       <div className="form-actions">
-        <button type="button" onClick={onCancel} className="secondary-btn">Annuler</button>
         <button type="submit" disabled={loading} className="primary-btn">
           {loading ? "Enregistrement..." : "Créer l'échéance"}
         </button>
+        <button type="button" onClick={onCancel} className="secondary-btn">Annuler</button>
       </div>
     </form>
   );

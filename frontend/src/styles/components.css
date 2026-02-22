@@ -1,8 +1,7 @@
-.primary-btn {
-  background-color: var(--accent) !important; 
-  color: #ffffff !important;
+/* --- BOUTONS --- */
+.primary-btn, .secondary-btn, .ajoutClient-btn {
   border: none;
-  padding: 0.8rem 1.5rem; 
+  padding: 0.8rem 1.5rem;
   border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
@@ -10,85 +9,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 160px; 
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-.primary-btn:hover {
-  background-color: rgba(19, 184, 19, 0.9) !important;
+  min-width: 160px;
   color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  opacity: 1 !important; 
-}
-.secondary-btn{
-  background-color: rgba(243, 83, 24, 0.84) !important; 
-  color: #ffffff !important;
-  border: none;
-  padding: 0.8rem 1.5rem; 
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 160px; 
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-.secondary-btn:hover {
-  background-color: rgb(191, 98, 44)!important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  opacity: 1 !important; 
-}
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;        
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text-secondary);
-  padding: 5px;
-  line-height: 1;
-  transition: transform 0.2s ease;
 }
 
-.close-btn:hover {
-  transform: scale(1.1);
-  color: var(--accent);
-}
-.ajoutClient-btn{
-  background-color: rgb(12, 171, 99)!important; 
-  color: #ffffff !important;
-  border: none;
-  padding: 0.8rem 1.5rem; 
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 160px; 
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-.ajoutClient-btn:hover {
-  background-color: rgb(91, 226, 161)!important;
-  color: #085e26 !important;
+.primary-btn { background-color: var(--accent) !important; }
+.primary-btn:hover {
+  background-color: var(--accent-hover) !important;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  opacity: 1 !important; 
 }
-/* Modale */
+
+.secondary-btn { background-color: rgba(243, 83, 24, 0.84) !important; }
+.secondary-btn:hover {
+  background-color: rgb(191, 98, 44) !important;
+  transform: translateY(-2px);
+}
+
+.ajoutClient-btn { background-color: rgb(12, 171, 99) !important; }
+.ajoutClient-btn:hover {
+  background-color: rgb(91, 226, 161) !important;
+  color: #085e26 !important;
+  transform: translateY(-2px);
+}
+
+/* --- MODALES --- */
 .modal-overlay {
-  background: rgba(0,0,0,0.5); 
- 
+  background: rgba(0, 0, 0, 0.6);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   position: fixed;
@@ -97,46 +44,58 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 20px;
 }
 
-.modal {
-  background: white;
+.modal, .modal-content {
+  background: var(--bg-card);
+  color: var(--text-main);
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   border-radius: var(--radius-lg);
   padding: 2rem;
   box-shadow: var(--shadow-lg);
-}
-
-.modal-content { 
-  background: white; 
-  padding: 2rem; 
-  border-radius: 12px; 
-  width: 100%;
-  max-width: 600px; 
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); 
+  border: 1px solid var(--border-ui);
+  position: relative;
+  transition: background-color 0.3s ease;
 }
 
 .modal-content, .edit-form {
-  position: relative;
-  padding-top: 3rem; 
+  padding-top: 3rem;
 }
 
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  color: var(--accent);
+}
+
+/* --- FORMULAIRES --- */
 .AddClientForm h3 {
   margin-bottom: 1.5rem;
-  color: var(--accent) !important; 
+  color: var(--accent) !important;
   font-size: 1.5rem;
   font-weight: 700;
-  border-bottom: 2px solid #f1f5f9;
+  border-bottom: 2px solid var(--border-ui);
   padding-bottom: 0.5rem;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem; 
+  gap: 1.5rem;
 }
-
 
 .form-group {
   display: flex;
@@ -149,35 +108,56 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 4px;
-  text-transform: uppercase; 
+  text-transform: uppercase;
   letter-spacing: 0.02em;
 }
-
 
 form input, form select {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-main);
+  border: 1px solid var(--border-ui);
   border-radius: var(--radius-md);
+  color: var(--text-main);
   font-size: 0.95rem;
-  margin-bottom: 0; 
   transition: all 0.2s;
 }
 
-form input:focus {
+form input:focus, form select:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 140, 50, 0.2);
+  background: var(--bg-card);
 }
 
-.error-message {
-  color: var(--error);
-  background: rgba(239, 68, 68, 0.1);
-  padding: 0.75rem;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  border-left: 4px solid var(--error);
+/* --- ÉTATS DÉSACTIVÉS --- */
+button:disabled {
+  background-color: var(--border-ui) !important;
+  color: var(--text-muted) !important;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  .form-row, .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  .modal, .modal-content {
+    padding: 1.5rem !important;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .primary-btn, .secondary-btn, .ajoutClient-btn {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .modal-content, .edit-form {
+    padding-top: 2rem;
+  }
 }

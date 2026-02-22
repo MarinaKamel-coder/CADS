@@ -137,7 +137,7 @@ const handleEditSubmit = async (e: React.FormEvent) => {
         <button className="back-btn" onClick={() => navigate("/clients")}>← Retour</button>
         <div className="header-content">
           <div className="title-section">
-            <h1>{client.lastName.toUpperCase()}, {client.firstName}</h1>
+            <h1>{client.lastName}, {client.firstName}</h1>
             <div className="meta-tags">
               <span className={`status-badge ${client.status.toLowerCase()}`}>
                 {client.status === "ACTIVE" ? "● Actif" : "○ Inactif"}

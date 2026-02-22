@@ -103,7 +103,7 @@ export default function Clients() {
                     onClick={() => navigate(`/clients/${client.id}`)}
                   >
                     <td className="client-name">
-                      {client.lastName.toUpperCase()}, {client.firstName}
+                      {client.lastName}, {client.firstName}
                     </td>
                     <td className="client-email">{client.email}</td>
                     <td>{new Date(client.createdAt).toLocaleDateString()}</td>

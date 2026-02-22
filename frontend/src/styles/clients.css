@@ -1,83 +1,102 @@
-/* Container Principal */
+/* --- CONTAINER PRINCIPAL --- */
 .clients-page { 
   padding: 30px; 
   max-width: 1200px;
   margin: 0 auto;
+  color: var(--text-main);
 }
 
-/* Header & Actions */
+/* --- HEADER & ACTIONS --- */
 .clients-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
+  gap: 20px;
 }
 
 .search-bar {
   padding: 10px 15px;
   border-radius: var(--radius-md);
-  border: 1px solid #e2e8f0;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-ui);
   width: 300px;
   font-size: 0.95rem;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .search-bar:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255, 68, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 140, 50, 0.2);
+  background: var(--bg-card);
 }
 
-/* Table Design */
+.search-bar::placeholder {
+  color: var(--text-muted);
+}
+
+/* --- TABLE DESIGN --- */
 .table-container {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #edf2f7;
-  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-ui);
+  overflow-x: auto; /* Scroll horizontal pour mobile */
+  transition: background 0.3s ease;
+  -webkit-overflow-scrolling: touch;
 }
 
 .clients-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 700px; /* Garantit une lisibilité minimum du tableau */
 }
+
 .clients-table th {
-  background: #f8fafc;
+  background: var(--bg-sidebar); 
+  opacity: 0.95;
   padding: 16px;
   text-align: left;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #64748b;
+  color: var(--text-muted);
   letter-spacing: 0.05em;
-  border-bottom: 2px solid #edf2f7;
+  border-bottom: 2px solid var(--border-ui);
 }
+
 .clients-table td {
   padding: 16px;
   vertical-align: middle;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-ui);
 }
+
 .client-row {
-  border-bottom: 1px solid #edf2f7;
   transition: background-color 0.2s ease;
 }
 
-.client-row:last-child {
+.client-row:last-child td {
   border-bottom: none;
 }
 
 .client-row:hover {
-  background-color: #f8fafc;
+  background-color: rgba(255, 255, 255, 0.03); 
   cursor: pointer;
 }
+
 .client-name {
   font-weight: 600;
-  color: #1a202c;
+  color: var(--text-main);
 }
 
 .client-email {
   font-size: 0.85rem;
-  color: #718096;
+  color: var(--text-muted);
 }
-/* BOUTON DE STATUT INTERACTIF */
+
+/* --- BOUTONS DE STATUT --- */
 .status-btn {
   border: 1px solid transparent;
   padding: 6px 14px;
@@ -88,22 +107,25 @@
   transition: all 0.2s ease;
   min-width: 100px;
   text-transform: uppercase;
+  display: inline-flex;
+  justify-content: center;
 }
 
 .status-btn:active { transform: scale(0.96); }
 
 .status-btn.active {
-  background: #dcfce7;
-  color: #166534;
-  border-color: #bbf7d0;
+  background: rgba(74, 222, 128, 0.15); 
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.3);
 }
 
 .status-btn.inactive {
-  background: #fee2e2;
-  color: #991b1b;
-  border-color: #fca5a5;
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.3);
 }
 
+/* --- ACTIONS --- */
 .delete-icon-btn {
   background: transparent;
   border: none;
@@ -112,11 +134,45 @@
   padding: 8px;
   border-radius: 6px;
   transition: all 0.2s;
-  color: #94a3b8; 
+  color: var(--text-muted); 
 }
 
 .delete-icon-btn:hover { 
-  background: #fee2e2; 
-  color: #e53e3e;
+  background: rgba(239, 68, 68, 0.1); 
+  color: var(--error);
   transform: rotate(10deg);
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+@media (max-width: 768px) {
+  .clients-page {
+    padding: 15px;
+  }
+
+  .clients-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .search-bar {
+    width: 100%; /* La recherche prend toute la largeur sur mobile */
+  }
+
+  .clients-table th, .clients-table td {
+    padding: 12px 10px;
+  }
+
+  .status-btn {
+    min-width: 80px;
+    padding: 5px 10px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Optionnel : Masquer les colonnes moins importantes sur très petits écrans */
+@media (max-width: 500px) {
+  /* Exemple : on pourrait cacher l'email si l'écran est trop petit */
+  /* .clients-table th:nth-child(2), .clients-table td:nth-child(2) { display: none; } */
 }
