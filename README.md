@@ -11,7 +11,7 @@ CADS est une solution de gestion comptable centralisée conçue pour automatiser
 
 ### Technologies utilisées
 
-* **Frontend :** React 18, Vite, Recharts (Stats), Axios.
+* **Frontend :** React 18, Vite, Recharts (Stats).
 * **Backend :** Node.js, Express, TypeScript.
 * **Base de données :** PostgreSQL (via Neon.tech), Prisma ORM.
 * **Sécurité :** Clerk Auth (Authentification JWT)
@@ -64,6 +64,14 @@ PORT                                       Port du serveur (3000)
 
 =================================================================================
 
+## 🔐 Accès pour l'évaluation
+
+Pour tester l'application avec des données déjà pré-remplies (via le script de seed), vous pouvez utiliser le compte de test suivant sur l'interface de connexion :
+
+**Email :** '`fady@test.com` *(ou l'email que tu as mis dans ton seed)*
+**Mot de passe :** `22102020`
+**Rôle :** Comptable (Accès complet au Dashboard, Clients et Obligations)
+
 ## ⚙️ Configuration et Lancement
 
 ### 1. Variables d'environnement
@@ -72,6 +80,7 @@ Créez un fichier `.env` dans le dossier `/frontend` :
 
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=votre_cle_clerk
+VITE_API_URL=localhost_URL
 
 ```
 
@@ -81,18 +90,18 @@ VITE_CLERK_PUBLISHABLE_KEY=votre_cle_clerk
 
 cd backend
 npm install
-npm run start
+npm run dev
 
 ```
 
-### 3. Lancer le Frontend (Port 5173)
+### 3. Lancer le Frontend 
 
 ```Bash
 
 cd frontend
 npm install
 npm run dev
-Accès : http://localhost:5173
+
 
 ```
 
@@ -132,7 +141,7 @@ Content-Type: application/json
 {
   "firstName": "Jean",
   "lastName": "Tremblay",
-  "email": "jean.t@example.com",
+  "email": `jean.t@example.com`,
   "status": "ACTIVE"
 }
 
