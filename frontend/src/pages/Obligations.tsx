@@ -16,6 +16,7 @@ export default function Obligations() {
   // ÉTATS POUR LE TRI ET LE FILTRAGE
   const [sortBy, setSortBy] = useState<SortOption>("date");
   const [hideCompleted, setHideCompleted] = useState(true); 
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchDeadlines = async () => {
     try {
@@ -35,18 +36,26 @@ export default function Obligations() {
   }, [getToken]);
 
   // LOGIQUE DE FILTRAGE + TRI
-  const processedDeadlines = useMemo(() => {
+const processedDeadlines = useMemo(() => {
     const priorityWeight = { HIGH: 3, MEDIUM: 2, LOW: 1 };
     
-    // 1. Filtrer : On cache si c'est complété OU si c'est inactif (quand hideCompleted est vrai)
+    // FILTRAGE
     let result = deadlines.filter(d => {
-      if (hideCompleted) {
-        return d.status !== "COMPLETED" && d.status !== "INACTIVE";
-      }
-      return true;
+      // Filtre de statut (Masquer archivées)
+      const matchesStatus = hideCompleted ? (d.status !== "COMPLETED" && d.status !== "INACTIVE") : true;
+      
+      // Filtre de recherche
+      const searchLower = searchQuery.toLowerCase();
+      const clientName = d.client ? `${d.client.firstName} ${d.client.lastName}`.toLowerCase() : "";
+      const matchesSearch = 
+        clientName.includes(searchLower) || 
+        d.title.toLowerCase().includes(searchLower) ||
+        (d.description && d.description.toLowerCase().includes(searchLower));
+
+      return matchesStatus && matchesSearch;
     });
 
-    // 2. Trier
+    // TRI (ton code existant reste le même)
     return result.sort((a, b) => {
       if (sortBy === "priority") {
         return priorityWeight[b.priority] - priorityWeight[a.priority];
@@ -54,7 +63,7 @@ export default function Obligations() {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       }
     });
-  }, [deadlines, sortBy, hideCompleted]);
+  }, [deadlines, sortBy, hideCompleted, searchQuery]);
 
   const handleToggleStatus = async (id: string, currentStatus: string) => {
     // Sécurité : Interdire la modification si l'obligation est INACTIVE
@@ -92,6 +101,16 @@ export default function Obligations() {
         <div className="header-main">
           <h1>📅 Obligations & Échéances</h1>
           <div className="header-controls">
+            <div className="search-wrapper">
+              <span className="search-icon">🔍</span>
+              <input 
+                type="text" 
+                placeholder="Rechercher un client ou une tâche..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+            </div>
             <div className="filter-group">
               <span className="label">Trier par :</span>
               <button className={`chip ${sortBy === "date" ? "active" : ""}`} onClick={() => setSortBy("date")}>📅 Date</button>

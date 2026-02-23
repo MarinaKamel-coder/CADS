@@ -11,6 +11,8 @@ export default function Alerts() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"ALL" | "UNREAD">("ALL");
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const loadData = async () => {
     try {
       setLoading(true);
@@ -29,10 +31,21 @@ export default function Alerts() {
   }, [getToken]);
 
   // Filtrage des alertes selon le choix de l'utilisateur
-  const filteredAlerts = useMemo(() => {
-    if (filter === "UNREAD") return alerts.filter(a => !a.read);
-    return alerts;
-  }, [alerts, filter]);
+const filteredAlerts = useMemo(() => {
+    return alerts.filter(a => {
+      // Filtre par statut (Lu/Non lu)
+      const matchesTab = filter === "ALL" || !a.read;
+      
+      // Filtre par recherche (Nom du client ou Titre de l'alerte)
+      const searchLower = searchQuery.toLowerCase();
+      const clientName = a.client ? `${a.client.firstName} ${a.client.lastName}`.toLowerCase() : "";
+      const matchesSearch = 
+        clientName.includes(searchLower) || 
+        a.title.toLowerCase().includes(searchLower);
+
+      return matchesTab && matchesSearch;
+    });
+  }, [alerts, filter, searchQuery]);
 
   const handleMarkAsRead = async (id: string) => {
     try {
@@ -66,6 +79,15 @@ export default function Alerts() {
         </div>
         
         <div className="alerts-actions">
+          <div className="search-box">
+            <span className="search-icon">🔍</span>
+            <input 
+              type="text" 
+              placeholder="Chercher un client ou une alerte..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
           <div className="tabs">
             <button 
               className={filter === "ALL" ? "active" : ""} 
@@ -108,9 +130,19 @@ export default function Alerts() {
                 
                 <div className="alert-body">
                   <div className="alert-main">
-                    <h3>{alert.title}</h3>
+                    {/* Conteneur pour aligner Titre + Badge Client */}
+                    <div className="alert-header-row">
+                      <h3>{alert.title}</h3>
+                      {alert.client && (
+                        <span className="client-badge">
+                          👤 {alert.client.firstName} {alert.client.lastName}
+                        </span>
+                      )}
+                    </div>
+                    
                     <p>{alert.message}</p>
                   </div>
+
                   <div className="alert-meta">
                     <span className={`priority-tag ${alert.priority.toLowerCase()}`}>
                       {alert.priority}

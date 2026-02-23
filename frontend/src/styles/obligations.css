@@ -40,6 +40,36 @@
 }
 
 /* --- SYSTÈME DE FILTRES (CHIPS) --- */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--bg-main);
+  border: 1px solid var(--border-ui);
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-right: 1rem;
+  transition: border-color 0.2s;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--accent);
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  padding: 6px 8px;
+  outline: none;
+  width: 200px; 
+  font-size: 0.75rem;
+}
+
+.search-icon {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
 .filter-group {
   display: flex;
   align-items: center;
@@ -293,9 +323,18 @@
     gap: 1.5rem;
   }
 
-  .header-controls {
+.header-controls {
+    flex-wrap: wrap; 
+    gap: 1rem;
+  }
+  
+  .search-wrapper {
+    width: 100%; 
+    margin-right: 0;
+  }
+  
+  .search-input {
     width: 100%;
-    justify-content: space-between;
   }
 }
 @media (max-width: 768px) {

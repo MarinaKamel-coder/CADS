@@ -21,6 +21,36 @@
   gap: 1rem; 
   align-items: center; 
 }
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-main);
+  border: 1px solid var(--border-ui);
+  border-radius: 8px;
+  padding: 0 12px;
+  min-width: 250px;
+  transition: all 0.2s;
+}
+
+.search-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
+}
+
+.search-box input {
+  border: none;
+  background: none;
+  padding: 8px 10px;
+  color: var(--text-main);
+  outline: none;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.search-icon {
+  opacity: 0.5;
+}
 
 /* Système d'onglets (Tabs) */
 .tabs { 
@@ -97,7 +127,29 @@
     font-size: 1.1rem; 
     color: var(--text-main);
 }
+.alert-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 4px;
+}
 
+.client-badge {
+  background-color: rgba(0, 0, 0, 0.05); /* Léger fond gris */
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary); /* Utilise ta variable de couleur texte */
+  white-space: nowrap;
+}
+
+/* En mode sombre, on ajuste le fond */
+.dark .client-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+}
 .alert-body p { 
     margin: 0 0 0.75rem 0; 
     color: var(--text-muted); 
@@ -172,6 +224,11 @@
         align-items: stretch; /* Boutons pleine largeur */
     }
 
+    .search-box {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
     .tabs {
         width: 100%;
         justify-content: space-between;
@@ -215,5 +272,13 @@
 
     .alert-body h3 {
         font-size: 1rem;
+    }
+    .alert-header-row {
+        flex-direction: column; 
+        align-items: flex-start;
+    }
+    
+    .client-badge {
+        margin-top: 5px;
     }
 }
