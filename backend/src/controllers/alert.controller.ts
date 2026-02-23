@@ -3,14 +3,29 @@ import prisma from "../prisma/prisma";
 
 
 export const getAlerts = async (req: Request, res: Response) => {
-  const clerkUserId = req.auth!.userId;
-  const alerts = await prisma.alert.findMany({
-    where: { userId: clerkUserId },
-    orderBy: { createdAt: "desc" },
-  });
-  res.json(alerts);
+  try {
+    const clerkUserId = req.auth!.userId;
+    
+    const alerts = await prisma.alert.findMany({
+      where: { userId: clerkUserId },
+      include: {
+        // On demande à Prisma d'inclure les infos du client lié
+        client: {
+          select: {
+            firstName: true,
+            lastName: true,
+          }
+        }
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    
+    res.json(alerts);
+  } catch (error) {
+    console.error("Erreur récup alertes:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
 };
-
 export const markAsRead = async (req: Request, res: Response) => {
   const { id } = req.params;
   if (!id) {

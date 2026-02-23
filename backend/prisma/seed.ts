@@ -1,5 +1,5 @@
 import prisma from '../src/prisma/prisma';
-import { ClientStatus, DeadlinePriority, DeadlineStatus, DeadlineType } from '../src/generated/prisma/client';
+import { ClientStatus, DeadlinePriority, DeadlineStatus, DeadlineType, AlertPriority, AlertType } from '../src/generated/prisma/client';
 
 async function main() {
   // 1. Récupérer l'utilisateur existant (Comptable)
@@ -42,6 +42,30 @@ async function main() {
         userId: user.id,
         status: ClientStatus.ACTIVE,
       }
+    });
+    
+
+    await prisma.alert.createMany({
+      data: [
+        {
+          title: "Échéance dépassée",
+          message: `La déclaration TPS/TVQ pour ${client.firstName} est en retard.`,
+          priority: AlertPriority.HIGH,
+          type: AlertType.DEADLINE,
+          userId: user.id,
+          clientId: client.id, // Liaison cruciale pour le badge !
+          read: false
+        },
+        {
+          title: "Document reçu",
+          message: `Nouveau document fiscal reçu pour le dossier ${client.lastName}.`,
+          priority: AlertPriority.LOW,
+          type: AlertType.DOCUMENT,
+          userId: user.id,
+          clientId: client.id,
+          read: true // Une déjà lue pour tester tes filtres
+        }
+      ]
     });
 
     // 3. Générer des obligations pour chaque client

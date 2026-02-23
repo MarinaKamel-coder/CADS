@@ -6,4 +6,8 @@ export interface Alert {
   priority: "LOW" | "MEDIUM" | "HIGH";
   read: boolean;
   createdAt: string;
+  client?: {
+    firstName: string;
+    lastName: string;
+  };
 }

@@ -891,7 +891,8 @@ export const AlertScalarFieldEnum = {
   read: 'read',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  clientId: 'clientId'
 } as const
 
 export type AlertScalarFieldEnum = (typeof AlertScalarFieldEnum)[keyof typeof AlertScalarFieldEnum]

@@ -233,6 +233,7 @@ export type ClientWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   documents?: Prisma.DocumentListRelationFilter
   deadlines?: Prisma.DeadlineListRelationFilter
+  alerts?: Prisma.AlertListRelationFilter
 }
 
 export type ClientOrderByWithRelationInput = {
@@ -250,6 +251,7 @@ export type ClientOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   deadlines?: Prisma.DeadlineOrderByRelationAggregateInput
+  alerts?: Prisma.AlertOrderByRelationAggregateInput
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -270,6 +272,7 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   documents?: Prisma.DocumentListRelationFilter
   deadlines?: Prisma.DeadlineListRelationFilter
+  alerts?: Prisma.AlertListRelationFilter
 }, "id">
 
 export type ClientOrderByWithAggregationInput = {
@@ -320,6 +323,7 @@ export type ClientCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutClientsInput
   documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
   deadlines?: Prisma.DeadlineCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateInput = {
@@ -336,6 +340,7 @@ export type ClientUncheckedCreateInput = {
   userId: string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
   deadlines?: Prisma.DeadlineUncheckedCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientUpdateInput = {
@@ -352,6 +357,7 @@ export type ClientUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
   deadlines?: Prisma.DeadlineUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateInput = {
@@ -368,6 +374,7 @@ export type ClientUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
   deadlines?: Prisma.DeadlineUncheckedUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyInput = {
@@ -468,6 +475,11 @@ export type ClientScalarRelationFilter = {
   isNot?: Prisma.ClientWhereInput
 }
 
+export type ClientNullableScalarRelationFilter = {
+  is?: Prisma.ClientWhereInput | null
+  isNot?: Prisma.ClientWhereInput | null
+}
+
 export type ClientCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.ClientCreateWithoutUserInput, Prisma.ClientUncheckedCreateWithoutUserInput> | Prisma.ClientCreateWithoutUserInput[] | Prisma.ClientUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.ClientCreateOrConnectWithoutUserInput | Prisma.ClientCreateOrConnectWithoutUserInput[]
@@ -542,6 +554,22 @@ export type ClientUpdateOneRequiredWithoutDeadlinesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutDeadlinesInput, Prisma.ClientUpdateWithoutDeadlinesInput>, Prisma.ClientUncheckedUpdateWithoutDeadlinesInput>
 }
 
+export type ClientCreateNestedOneWithoutAlertsInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutAlertsInput, Prisma.ClientUncheckedCreateWithoutAlertsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutAlertsInput
+  connect?: Prisma.ClientWhereUniqueInput
+}
+
+export type ClientUpdateOneWithoutAlertsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutAlertsInput, Prisma.ClientUncheckedCreateWithoutAlertsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutAlertsInput
+  upsert?: Prisma.ClientUpsertWithoutAlertsInput
+  disconnect?: Prisma.ClientWhereInput | boolean
+  delete?: Prisma.ClientWhereInput | boolean
+  connect?: Prisma.ClientWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutAlertsInput, Prisma.ClientUpdateWithoutAlertsInput>, Prisma.ClientUncheckedUpdateWithoutAlertsInput>
+}
+
 export type ClientCreateWithoutUserInput = {
   id?: string
   firstName: string
@@ -555,6 +583,7 @@ export type ClientCreateWithoutUserInput = {
   updatedAt?: Date | string
   documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
   deadlines?: Prisma.DeadlineCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutUserInput = {
@@ -570,6 +599,7 @@ export type ClientUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
   deadlines?: Prisma.DeadlineUncheckedCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutUserInput = {
@@ -628,6 +658,7 @@ export type ClientCreateWithoutDocumentsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutClientsInput
   deadlines?: Prisma.DeadlineCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutDocumentsInput = {
@@ -643,6 +674,7 @@ export type ClientUncheckedCreateWithoutDocumentsInput = {
   updatedAt?: Date | string
   userId: string
   deadlines?: Prisma.DeadlineUncheckedCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutDocumentsInput = {
@@ -674,6 +706,7 @@ export type ClientUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
   deadlines?: Prisma.DeadlineUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutDocumentsInput = {
@@ -689,6 +722,7 @@ export type ClientUncheckedUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   deadlines?: Prisma.DeadlineUncheckedUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateWithoutDeadlinesInput = {
@@ -704,6 +738,7 @@ export type ClientCreateWithoutDeadlinesInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutClientsInput
   documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutDeadlinesInput = {
@@ -719,6 +754,7 @@ export type ClientUncheckedCreateWithoutDeadlinesInput = {
   updatedAt?: Date | string
   userId: string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
+  alerts?: Prisma.AlertUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutDeadlinesInput = {
@@ -750,6 +786,7 @@ export type ClientUpdateWithoutDeadlinesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutDeadlinesInput = {
@@ -765,6 +802,87 @@ export type ClientUncheckedUpdateWithoutDeadlinesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientCreateWithoutAlertsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  nasNumber: string
+  address: string
+  status?: $Enums.ClientStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutClientsInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
+  deadlines?: Prisma.DeadlineCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutAlertsInput = {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  nasNumber: string
+  address: string
+  status?: $Enums.ClientStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId: string
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
+  deadlines?: Prisma.DeadlineUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutAlertsInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutAlertsInput, Prisma.ClientUncheckedCreateWithoutAlertsInput>
+}
+
+export type ClientUpsertWithoutAlertsInput = {
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutAlertsInput, Prisma.ClientUncheckedUpdateWithoutAlertsInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutAlertsInput, Prisma.ClientUncheckedCreateWithoutAlertsInput>
+  where?: Prisma.ClientWhereInput
+}
+
+export type ClientUpdateToOneWithWhereWithoutAlertsInput = {
+  where?: Prisma.ClientWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutAlertsInput, Prisma.ClientUncheckedUpdateWithoutAlertsInput>
+}
+
+export type ClientUpdateWithoutAlertsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  nasNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
+  deadlines?: Prisma.DeadlineUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutAlertsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  nasNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumClientStatusFieldUpdateOperationsInput | $Enums.ClientStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
+  deadlines?: Prisma.DeadlineUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyUserInput = {
@@ -793,6 +911,7 @@ export type ClientUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
   deadlines?: Prisma.DeadlineUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutUserInput = {
@@ -808,6 +927,7 @@ export type ClientUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
   deadlines?: Prisma.DeadlineUncheckedUpdateManyWithoutClientNestedInput
+  alerts?: Prisma.AlertUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateManyWithoutUserInput = {
@@ -831,11 +951,13 @@ export type ClientUncheckedUpdateManyWithoutUserInput = {
 export type ClientCountOutputType = {
   documents: number
   deadlines: number
+  alerts: number
 }
 
 export type ClientCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documents?: boolean | ClientCountOutputTypeCountDocumentsArgs
   deadlines?: boolean | ClientCountOutputTypeCountDeadlinesArgs
+  alerts?: boolean | ClientCountOutputTypeCountAlertsArgs
 }
 
 /**
@@ -862,6 +984,13 @@ export type ClientCountOutputTypeCountDeadlinesArgs<ExtArgs extends runtime.Type
   where?: Prisma.DeadlineWhereInput
 }
 
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeCountAlertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlertWhereInput
+}
+
 
 export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -878,6 +1007,7 @@ export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   documents?: boolean | Prisma.Client$documentsArgs<ExtArgs>
   deadlines?: boolean | Prisma.Client$deadlinesArgs<ExtArgs>
+  alerts?: boolean | Prisma.Client$alertsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
@@ -930,6 +1060,7 @@ export type ClientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   documents?: boolean | Prisma.Client$documentsArgs<ExtArgs>
   deadlines?: boolean | Prisma.Client$deadlinesArgs<ExtArgs>
+  alerts?: boolean | Prisma.Client$alertsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClientIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -945,6 +1076,7 @@ export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     user: Prisma.$UserPayload<ExtArgs>
     documents: Prisma.$DocumentPayload<ExtArgs>[]
     deadlines: Prisma.$DeadlinePayload<ExtArgs>[]
+    alerts: Prisma.$AlertPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1355,6 +1487,7 @@ export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.T
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   documents<T extends Prisma.Client$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deadlines<T extends Prisma.Client$deadlinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$deadlinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeadlinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  alerts<T extends Prisma.Client$alertsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$alertsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1836,6 +1969,30 @@ export type Client$deadlinesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.DeadlineScalarFieldEnum | Prisma.DeadlineScalarFieldEnum[]
+}
+
+/**
+ * Client.alerts
+ */
+export type Client$alertsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Alert
+   */
+  select?: Prisma.AlertSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Alert
+   */
+  omit?: Prisma.AlertOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlertInclude<ExtArgs> | null
+  where?: Prisma.AlertWhereInput
+  orderBy?: Prisma.AlertOrderByWithRelationInput | Prisma.AlertOrderByWithRelationInput[]
+  cursor?: Prisma.AlertWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlertScalarFieldEnum | Prisma.AlertScalarFieldEnum[]
 }
 
 /**
