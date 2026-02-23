@@ -37,6 +37,7 @@ export const createDeadline = async (req: Request, res: Response) => {
     await tx.alert.create({
       data: {
         userId: clerkUserId,
+        clientId,
         type: "DEADLINE",
         title: "Nouvelle échéance",
         message: `Échéance "${title}" ajoutée pour le ${new Date(dueDate).toLocaleDateString("fr-CA")}.`,

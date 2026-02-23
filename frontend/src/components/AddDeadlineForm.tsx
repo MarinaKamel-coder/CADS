@@ -64,7 +64,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
           >
             <option value="">Choisir un client...</option>
             {clients.map(c => (
-              <option key={c.id} value={c.id}>{c.lastName.toUpperCase()} {c.firstName}</option>
+              <option key={c.id} value={c.id}>{c.firstName} {c.lastName}</option>
             ))}
           </select>
         </div>
