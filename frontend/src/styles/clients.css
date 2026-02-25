@@ -45,7 +45,6 @@
   border: 1px solid var(--border-ui);
   overflow-x: auto; /* Scroll horizontal pour mobile */
   transition: background 0.3s ease;
-  -webkit-overflow-scrolling: touch;
 }
 
 .clients-table {
@@ -56,7 +55,7 @@
 
 .clients-table th {
   background: var(--bg-sidebar); 
-  opacity: 0.95;
+  opacity: 1;
   padding: 16px;
   text-align: left;
   font-size: 0.75rem;

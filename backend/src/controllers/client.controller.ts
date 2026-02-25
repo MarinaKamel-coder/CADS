@@ -52,16 +52,29 @@ export const getClient = async (req: Request, res: Response) => {
 
 // POST /clients
 export const createClient = async (req: Request, res: Response) => {
-  const clerkUserId = req.auth!.userId;
+  try {
+    const clerkUserId = req.auth!.userId;
 
-  const client = await prisma.client.create({
-    data: {
-      ...req.body,
-      userId: clerkUserId,
-    },
-  });
+    const client = await prisma.client.create({
+      data: {
+        ...req.body,
+        userId: clerkUserId,
+      },
+    });
 
-  res.status(201).json({ client });
+    res.status(201).json({ client });
+  } catch (error: any) {
+    // P2002 est le code d'erreur de Prisma pour une violation de contrainte unique
+    if (error.code === 'P2002') {
+      const field = error.meta?.target; 
+      return res.status(400).json({ 
+        error: `Ce Client est déjà utilisé par un autre Comptable dans le système.` 
+      });
+    }
+
+    console.error("Erreur création client:", error);
+    res.status(500).json({ error: "Une erreur interne est survenue." });
+  }
 };
 
 // PUT /clients/:id

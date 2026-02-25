@@ -2,8 +2,6 @@ import prisma from '../src/prisma/prisma';
 import { ClientStatus, DeadlinePriority, DeadlineStatus, DeadlineType, AlertPriority, AlertType } from '../src/generated/prisma/client';
 
 async function main() {
-  // 1. Récupérer l'utilisateur existant (Comptable)
- 
   const CLERK_USER_ID = "user_37jVLqSQDzk2owhxpkSqG7bA8mV"; 
 
   const user = await prisma.user.findUnique({
@@ -12,109 +10,71 @@ async function main() {
 
   if (!user) {
     console.error(`❌ Erreur: Utilisateur avec l'ID ${CLERK_USER_ID} non trouvé.`);
-    console.log("Assure-toi de t'être connecté au moins une fois pour que Clerk crée l'user en base.");
     return;
   }
 
-  console.log(`✅ Utilisateur trouvé : ${user.firstName} ${user.lastName}`);
+  console.log(`✅ Utilisateur trouvé : ${user.firstName} ${user.lastName}. Génération de 50 clients...`);
 
+  // Listes pour génération aléatoire
+  const firstNames = ["Jean", "Sophie", "Pierre", "Lucie", "Marc", "Julie", "Antoine", "Élodie", "Mathieu", "Chloé", "Robert", "Martine", "Paul", "Isabelle", "Jacques", "Sylvie"];
+  const lastNames = ["Tremblay", "Gagnon", "Roy", "Côté", "Bouchard", "Gauthier", "Morin", "Lavoie", "Fortin", "Gagné", "Pelletier", "Belanger", "Levesque", "Sylvie"];
+  const cities = ["Montréal", "Québec", "Laval", "Gatineau", "Longueuil", "Sherbrooke", "Lévis"];
 
-  // 2. Liste des clients de test
-  const clientsData = [
-    { firstName: "Michel", lastName: "Dupont", email: "michel.dupont@gmail.com", nas: "111-222-333", address: "123 Rue Sherbrooke, Montréal" },
-    { firstName: "Marie", lastName: "Lavoie", email: "marie@lavoie.ca", nas: "444-555-666", address: "456 Boul. Laurier, Québec" },
-    { firstName: "Services", lastName: "Innovatech", email: "contact@innova.io", nas: "777-888-999", address: "789 Rue Saint-Paul, Montréal" },
-    { firstName: "Luc", lastName: "Bouchard", email: "luc.b@outlook.com", nas: "123-123-123", address: "12 Avenue du Palais, Gatineau" },
-    { firstName: "Sarah", lastName: "Connor", email: "s.connor@cyber.com", nas: "999-000-111", address: "555 Rue du Futur, Laval" },
-  ];
+  for (let i = 1; i <= 50; i++) {
+    // On ajoute "|| ''" ou on utilise "!" pour garantir que ce n'est pas undefined
+    const fName = firstNames[Math.floor(Math.random() * firstNames.length)]!;
+    const lName = lastNames[Math.floor(Math.random() * lastNames.length)]!;
+    const city = cities[Math.floor(Math.random() * cities.length)]!;
 
-  console.log(`🚀 Insertion de ${clientsData.length} clients et leurs obligations...`);
-
-  for (const c of clientsData) {
+    // 1. Création du Client
     const client = await prisma.client.create({
       data: {
-        firstName: c.firstName,
-        lastName: c.lastName,
-        email: c.email,
-        phone: "514-555-0000",
-        nasNumber: c.nas,
-        address: c.address,
+        firstName: fName,
+        lastName: `${lName} Inc.`,
+        email: `${fName.toLowerCase()}.${lName.toLowerCase()}${i}@exemple.ca`,
+        phone: `514-555-${1000 + i}`,
+        nasNumber: `${100 + i}-${200 + i}-${300 + i}`,
+        address: `${i * 12} Rue Principale, ${city}`,
         userId: user.id,
-        status: ClientStatus.ACTIVE,
+        status: i % 10 === 0 ? ClientStatus.INACTIVE : ClientStatus.ACTIVE, // 1 sur 10 est inactif
       }
     });
-    
 
+    // 2. Création d'Alertes Aléatoires pour ce client
     await prisma.alert.createMany({
       data: [
         {
-          title: "Échéance dépassée",
-          message: `La déclaration TPS/TVQ pour ${client.firstName} est en retard.`,
-          priority: AlertPriority.HIGH,
-          type: AlertType.DEADLINE,
-          userId: user.id,
-          clientId: client.id, // Liaison cruciale pour le badge !
-          read: false
-        },
-        {
-          title: "Document reçu",
-          message: `Nouveau document fiscal reçu pour le dossier ${client.lastName}.`,
-          priority: AlertPriority.LOW,
-          type: AlertType.DOCUMENT,
+          title: "Vérification annuelle",
+          message: `Dossier de ${client.lastName} à réviser.`,
+          priority: i % 3 === 0 ? AlertPriority.HIGH : AlertPriority.LOW,
+          type: AlertType.SYSTEM,
           userId: user.id,
           clientId: client.id,
-          read: true // Une déjà lue pour tester tes filtres
+          read: i % 2 === 0
         }
       ]
     });
 
-    // 3. Générer des obligations pour chaque client
-    const deadlines = [
-      {
-        title: "Taxes de vente (TPS/TVQ)",
-        description: "Déclaration et paiement du trimestre en cours.",
-        dueDate: new Date("2026-02-15"), // En retard (pour tester le rouge)
-        priority: DeadlinePriority.HIGH,
-        type: DeadlineType.PROVINCIAL,
-        status: DeadlineStatus.PENDING
-      },
-      {
-        title: "Impôt sur les sociétés",
-        description: "Soumission annuelle des résultats financiers.",
-        dueDate: new Date("2026-03-31"),
-        priority: DeadlinePriority.MEDIUM,
-        type: DeadlineType.FEDERAL,
-        status: DeadlineStatus.PENDING
-      },
-      {
-        title: "Taxe Foncière",
-        description: "Paiement du compte de taxes municipales.",
-        dueDate: new Date("2026-04-10"),
-        priority: DeadlinePriority.LOW,
-        type: DeadlineType.MUNICIPAL,
-        status: DeadlineStatus.COMPLETED // Déjà complété (pour tester le grisé)
-      }
-    ];
+    // 3. Création de Deadlines (Obligations)
+    const randomDays = Math.floor(Math.random() * 60) - 20; // Entre -20 et +40 jours
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + randomDays);
 
-    for (const d of deadlines) {
-      await prisma.deadline.create({
-        data: {
-          ...d,
-          clientId: client.id,
-          userId: user.id
-        }
-      });
-    }
+    await prisma.deadline.create({
+      data: {
+        title: i % 2 === 0 ? "TPS/TVQ Trimestrielle" : "Impôt des sociétés",
+        description: `Suivi fiscal standard pour le client ${client.firstName}.`,
+        dueDate: dueDate,
+        priority: randomDays < 0 ? DeadlinePriority.HIGH : DeadlinePriority.MEDIUM,
+        type: i % 3 === 0 ? DeadlineType.PROVINCIAL : DeadlineType.FEDERAL,
+        status: randomDays < 0 ? DeadlineStatus.PENDING : (i % 5 === 0 ? DeadlineStatus.COMPLETED : DeadlineStatus.PENDING),
+        clientId: client.id,
+        userId: user.id
+      }
+    });
   }
 
-  console.log("✨ Seed terminé ! Tes tableaux de bord sont maintenant remplis.");
+  console.log("✨ Succès ! 50 clients et leurs données ont été injectés.");
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main().catch((e) => { console.error(e); process.exit(1); }).finally(async () => { await prisma.$disconnect(); });

@@ -33,8 +33,14 @@ export const createClient = async (getToken: () => Promise<string | null>, clien
     body: JSON.stringify(clientData),
   });
 
-  if (!response.ok) throw new Error("Erreur lors de la création du client");
-  return await response.json();
+  // Si la réponse n'est pas "OK" (200-299)
+  if (!response.ok) {
+    const errorData = await response.json();
+    // On lance une erreur avec le message précis du serveur ("Ce NAS existe déjà...")
+    throw new Error(errorData.error || "Une erreur est survenue lors de la création.");
+  }
+
+  return response.json();
 };
 
 // Récupérer un seul client par ID

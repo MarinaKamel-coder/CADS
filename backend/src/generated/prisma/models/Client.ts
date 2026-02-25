@@ -256,14 +256,14 @@ export type ClientOrderByWithRelationInput = {
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  email?: string
+  nasNumber?: string
   AND?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   OR?: Prisma.ClientWhereInput[]
   NOT?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   firstName?: Prisma.StringFilter<"Client"> | string
   lastName?: Prisma.StringFilter<"Client"> | string
-  email?: Prisma.StringFilter<"Client"> | string
   phone?: Prisma.StringFilter<"Client"> | string
-  nasNumber?: Prisma.StringFilter<"Client"> | string
   address?: Prisma.StringFilter<"Client"> | string
   status?: Prisma.EnumClientStatusFilter<"Client"> | $Enums.ClientStatus
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
@@ -273,7 +273,7 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   documents?: Prisma.DocumentListRelationFilter
   deadlines?: Prisma.DeadlineListRelationFilter
   alerts?: Prisma.AlertListRelationFilter
-}, "id">
+}, "id" | "email" | "nasNumber">
 
 export type ClientOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

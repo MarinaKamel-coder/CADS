@@ -49,7 +49,7 @@ export default function AddClientForm({ onSuccess, onCancel }: AddClientFormProp
         address: "",
         status: "ACTIVE",
       });
-
+      
       // Déclenche le rechargement de la liste dans Dashboard.tsx
       onSuccess(); 
       
