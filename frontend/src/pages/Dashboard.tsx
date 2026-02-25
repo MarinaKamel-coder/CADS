@@ -107,13 +107,19 @@ export default function Dashboard() {
               <p>Chargement...</p>
             ) : clients.length > 0 ? (
               clients.slice(0, 5).map((client) => (
-                <div key={client.id} className="recent-item">
-                  <div className="recent-info">
-                    <p className="name">{client.firstName} {client.lastName}</p>
-                    <p className="email">{client.email}</p>
+                <Link 
+                  key={client.id} 
+                  to={`/clients/${client.id}`} 
+                  className="recent-item-link"
+                >
+                  <div key={client.id} className="recent-item">
+                    <div className="recent-info">
+                      <p className="name">{client.firstName} {client.lastName}</p>
+                      <p className="email">{client.email}</p>
+                    </div>
+                    <span className={`status-dot ${client.status.toLowerCase()}`}></span>
                   </div>
-                  <span className={`status-dot ${client.status.toLowerCase()}`}></span>
-                </div>
+                </Link>
               ))
             ) : (
               <p className="empty-msg">Aucun client récent.</p>

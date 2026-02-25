@@ -129,7 +129,60 @@
   cursor: pointer;
   accent-color: var(--accent);
 }
+/* 1. Le conteneur principal (Control) */
+.react-select__control {
+  background-color: var(--bg-main) !important;
+  border: 1px solid var(--border-ui) !important;
+  border-radius: 8px !important;
+  min-height: 40px !important;
+  box-shadow: none !important; /* SUPPRIME LE BOX/GLOW */
+  cursor: text !important;
+}
 
+/* 2. Supprimer la bordure au focus (quand on clique dedans) */
+.react-select__control--is-focused {
+  border-color: var(--border-ui) !important; /* Garde la même bordure que d'habitude */
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 3. Supprimer le changement de couleur au survol */
+.react-select__control:hover {
+  border-color: var(--border-ui) !important;
+}
+
+/* 4. Harmoniser le texte et le placeholder */
+.react-select__single-value {
+  color: var(--text-main) !important;
+}
+
+.react-select__placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* 5. Supprimer la ligne verticale moche avant la flèche */
+.react-select__indicator-separator {
+  display: none !important;
+}
+
+/* 6. Le menu déroulant (Dropdown) */
+.react-select__menu {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-ui) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* 7. Les options dans la liste */
+.react-select__option {
+  background-color: transparent !important;
+  color: var(--text-main) !important;
+  cursor: pointer !important;
+}
+
+.react-select__option--is-focused {
+  background-color: rgba(255, 255, 255, 0.05) !important; /* Un léger gris au survol d'une option */
+}
 /* --- TABLEAU --- */
 .table-card {
   background: var(--bg-card);
@@ -287,6 +340,10 @@
   align-items: center;
   gap: 0.5rem;
   box-shadow: 0 2px 8px rgba(255, 140, 50, 0.2); 
+}
+.ajouterDeadline-btn:hover {
+  background-color: var(--accent-hover)!important;
+  transform: translateY(-2px);
 }
 
 /* --- ÉTATS SPÉCIAUX --- */

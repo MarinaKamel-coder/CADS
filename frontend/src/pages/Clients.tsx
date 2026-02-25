@@ -9,8 +9,17 @@ export default function Clients() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // --- ÉTATS POUR LA PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const clientsPerPage = 12;
+
   const { getToken } = useAuth();
   const navigate = useNavigate();
+
+  // Reset de la page si on fait une recherche
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
 // 1. Chargement des données
   const fetchClients = async () => {
@@ -61,10 +70,18 @@ export default function Clients() {
     }
   };
 
-  // 4. Filtrage pour la recherche
+  // --- LOGIQUE DE FILTRAGE + PAGINATION ---
   const filteredClients = clients.filter(client => 
     `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Calcul des index pour la page actuelle
+  const indexOfLastClient = currentPage * clientsPerPage;
+  const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+  const currentClients = filteredClients.slice(indexOfFirstClient, indexOfLastClient);
+
+  // Nombre total de pages
+  const totalPages = Math.ceil(filteredClients.length / clientsPerPage);
 
   return (
 <div className="clients-page">
@@ -85,49 +102,75 @@ export default function Clients() {
           {loading ? (
             <div className="loader">Chargement des dossiers...</div>
           ) : (
-            <table className="clients-table">
-              <thead>
-                <tr>
-                  <th>Nom complet</th>
-                  <th>Courriel</th>
-                  <th>Date d'ajout</th>
-                  <th>Statut</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredClients.map((client) => (
-                  <tr 
-                    key={client.id} 
-                    className="client-row"
-                    onClick={() => navigate(`/clients/${client.id}`)}
-                  >
-                    <td className="client-name">
-                      {client.lastName}, {client.firstName}
-                    </td>
-                    <td className="client-email">{client.email}</td>
-                    <td>{new Date(client.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      <button 
-                        className={`status-btn ${client.status.toLowerCase()}`}
-                        onClick={(e) => handleToggleStatus(e, client)}
-                        title="Cliquer pour changer le statut"
-                      >
-                        {client.status === "ACTIVE" ? "🟢 Actif" : "🔴 Inactif"}
-                      </button>
-                    </td>
-                    <td className="actions-cell">
-                      <button 
-                        className="delete-icon-btn" 
-                        onClick={(e) => handleDelete(e, client.id)}
-                      >
-                        🗑️
-                      </button>
-                    </td>
+            <>
+              <table className="clients-table">
+                <thead>
+                  <tr>
+                    <th>Nom complet</th>
+                    <th>Courriel</th>
+                    <th>Date d'ajout</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentClients.map((client) => (
+                    <tr 
+                      key={client.id} 
+                      className="client-row"
+                      onClick={() => navigate(`/clients/${client.id}`)}
+                    >
+                      <td className="client-name">
+                        {client.lastName}, {client.firstName}
+                      </td>
+                      <td className="client-email">{client.email}</td>
+                      <td>{new Date(client.createdAt).toLocaleDateString()}</td>
+                      <td>
+                        <button 
+                          className={`status-btn ${client.status.toLowerCase()}`}
+                          onClick={(e) => handleToggleStatus(e, client)}
+                          title="Cliquer pour changer le statut"
+                        >
+                          {client.status === "ACTIVE" ? "🟢 Actif" : "🔴 Inactif"}
+                        </button>
+                      </td>
+                      <td className="actions-cell">
+                        <button 
+                          className="delete-icon-btn" 
+                          onClick={(e) => handleDelete(e, client.id)}
+                        >
+                          🗑️
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            {/* --- CONTRÔLES DE PAGINATION --- */}
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button 
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => prev - 1)}
+                  className="page-btn"
+                >
+                  Précédent
+                </button>
+                
+                <span className="page-info">
+                  Page <strong>{currentPage}</strong> sur <strong>{totalPages}</strong>
+                </span>
+
+                <button 
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  className="page-btn"
+                >
+                  Suivant
+                </button>
+              </div>
+            )}
+          </>
           )}
           {!loading && filteredClients.length === 0 && (
             <div className="empty-state">Aucun client trouvé.</div>

@@ -4,7 +4,7 @@ import path from 'path';
 // Configuration du stockage local temporaire
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Assure-toi que ce dossier existe
+    cb(null, 'uploads/'); 
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);

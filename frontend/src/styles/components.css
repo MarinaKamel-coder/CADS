@@ -26,10 +26,9 @@
   transform: translateY(-2px);
 }
 
-.ajoutClient-btn { background-color: rgb(12, 171, 99) !important; }
+.ajoutClient-btn { background-color:var(--accent)!important; }
 .ajoutClient-btn:hover {
-  background-color: rgb(91, 226, 161) !important;
-  color: #085e26 !important;
+  background-color: var(--accent-hover)!important;
   transform: translateY(-2px);
 }
 

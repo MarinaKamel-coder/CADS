@@ -1,12 +1,12 @@
 import prisma from "../prisma/prisma";
 
 export const checkUpcomingDeadlines = async () => {
-  const thirtyDaysFromNow = new Date();
-  thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+  const tenDaysFromNow = new Date();
+  tenDaysFromNow.setDate(tenDaysFromNow.getDate() + 10);
 
   const urgentDeadlines = await prisma.deadline.findMany({
     where: {
-      dueDate: { lte: thirtyDaysFromNow },
+      dueDate: { lte: tenDaysFromNow },
       status: "PENDING",
     },
   });

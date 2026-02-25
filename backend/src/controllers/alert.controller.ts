@@ -5,11 +5,10 @@ import prisma from "../prisma/prisma";
 export const getAlerts = async (req: Request, res: Response) => {
   try {
     const clerkUserId = req.auth!.userId;
-    
+
     const alerts = await prisma.alert.findMany({
       where: { userId: clerkUserId },
       include: {
-        // On demande à Prisma d'inclure les infos du client lié
         client: {
           select: {
             firstName: true,
@@ -17,7 +16,7 @@ export const getAlerts = async (req: Request, res: Response) => {
           }
         }
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ priority: 'desc' },{ createdAt: "desc" },]
     });
     
     res.json(alerts);

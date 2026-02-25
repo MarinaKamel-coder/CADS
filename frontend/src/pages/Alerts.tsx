@@ -10,8 +10,16 @@ export default function Alerts() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"ALL" | "UNREAD">("ALL");
-
   const [searchQuery, setSearchQuery] = useState("");
+
+  // --- ÉTATS POUR LA PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Reset la page si le filtre ou la recherche change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, searchQuery]);
 
   const loadData = async () => {
     try {
@@ -46,6 +54,12 @@ const filteredAlerts = useMemo(() => {
       return matchesTab && matchesSearch;
     });
   }, [alerts, filter, searchQuery]);
+
+  // --- LOGIQUE DE PAGINATION ---
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentAlerts = filteredAlerts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredAlerts.length / itemsPerPage);
 
   const handleMarkAsRead = async (id: string) => {
     try {
@@ -111,65 +125,90 @@ const filteredAlerts = useMemo(() => {
       {loading ? (
         <div className="loader">Chargement des notifications...</div>
       ) : (
-        <div className="alerts-list">
-          {filteredAlerts.length === 0 ? (
-            <div className="empty-state">
-              <p>Aucune notification à afficher.</p>
-            </div>
-          ) : (
-            filteredAlerts.map((alert) => (
-              <div 
-                key={alert.id} 
-                className={`alert-card ${alert.read ? "read" : "unread"} ${alert.priority.toLowerCase()}`}
-              >
-                <div className="alert-type-icon">
-                  {alert.type === "DEADLINE" && "📅"}
-                  {alert.type === "DOCUMENT" && "📄"}
-                  {alert.type === "SYSTEM" && "⚙️"}
-                </div>
-                
-                <div className="alert-body">
-                  <div className="alert-main">
-                    {/* Conteneur pour aligner Titre + Badge Client */}
-                    <div className="alert-header-row">
-                      <h3>{alert.title}</h3>
-                      {alert.client && (
-                        <span className="client-badge">
-                          👤 {alert.client.firstName} {alert.client.lastName}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <p>{alert.message}</p>
-                  </div>
-
-                  <div className="alert-meta">
-                    <span className={`priority-tag ${alert.priority.toLowerCase()}`}>
-                      {alert.priority}
-                    </span>
-                    <span className="date">
-                      {new Date(alert.createdAt).toLocaleString("fr-CA", {
-                        dateStyle: "short",
-                        timeStyle: "short"
-                      })}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="alert-control">
-                  {!alert.read && (
-                    <button 
-                      onClick={() => handleMarkAsRead(alert.id)}
-                      title="Marquer comme lu"
-                    >
-                      ✅
-                    </button>
-                  )}
-                </div>
+        <>
+          <div className="alerts-list">
+            {currentAlerts.length === 0 ? (
+              <div className="empty-state">
+                <p>Aucune notification à afficher.</p>
               </div>
-            ))
+            ) : (
+              currentAlerts.map((alert) => (
+                <div 
+                  key={alert.id} 
+                  className={`alert-card ${alert.read ? "read" : "unread"} ${alert.priority.toLowerCase()}`}
+                >
+                  <div className="alert-type-icon">
+                    {alert.type === "DEADLINE" && "📅"}
+                    {alert.type === "DOCUMENT" && "📄"}
+                    {alert.type === "SYSTEM" && "⚙️"}
+                  </div>
+                  
+                  <div className="alert-body">
+                    <div className="alert-main">
+                      {/* Conteneur pour aligner Titre + Badge Client */}
+                      <div className="alert-header-row">
+                        <h3>{alert.title}</h3>
+                        {alert.client && (
+                          <span className="client-badge">
+                            👤 {alert.client.firstName} {alert.client.lastName}
+                          </span>
+                        )}
+                      </div>
+                      
+                      <p>{alert.message}</p>
+                    </div>
+
+                    <div className="alert-meta">
+                      <span className={`priority-tag ${alert.priority.toLowerCase()}`}>
+                        {alert.priority}
+                      </span>
+                      {/* <span className="date">
+                        {new Date(alert.createdAt).toLocaleString("fr-CA", {
+                          dateStyle: "short",
+                        })}
+                      </span> */}
+                    </div>
+                  </div>
+
+                  <div className="alert-control">
+                    {!alert.read && (
+                      <button 
+                        onClick={() => handleMarkAsRead(alert.id)}
+                        title="Marquer comme lu"
+                      >
+                        ✅
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          {/* --- CONTRÔLES DE PAGINATION --- */}
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => prev - 1)}
+                className="page-btn"
+              >
+                Précédent
+              </button>
+              
+              <span className="page-info">
+                Page <strong>{currentPage}</strong> sur <strong>{totalPages}</strong>
+              </span>
+
+              <button 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => prev + 1)}
+                className="page-btn"
+              >
+                Suivant
+              </button>
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

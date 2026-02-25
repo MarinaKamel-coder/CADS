@@ -18,6 +18,15 @@ export default function Obligations() {
   const [hideCompleted, setHideCompleted] = useState(true); 
   const [searchQuery, setSearchQuery] = useState("");
 
+  // --- ÉTATS POUR LA PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  // Reset la page à 1 si on change de recherche ou de filtre
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, hideCompleted, sortBy]);
+
   const fetchDeadlines = async () => {
     try {
       setLoading(true);
@@ -41,6 +50,8 @@ const processedDeadlines = useMemo(() => {
     
     // FILTRAGE
     let result = deadlines.filter(d => {
+      // Vérifier si le client est actif
+      const isClientActive = d.client ? d.client.status !== "INACTIVE" : true;
       // Filtre de statut (Masquer archivées)
       const matchesStatus = hideCompleted ? (d.status !== "COMPLETED" && d.status !== "INACTIVE") : true;
       
@@ -49,10 +60,10 @@ const processedDeadlines = useMemo(() => {
       const clientName = d.client ? `${d.client.firstName} ${d.client.lastName}`.toLowerCase() : "";
       const matchesSearch = 
         clientName.includes(searchLower) || 
-        d.title.toLowerCase().includes(searchLower) ||
-        (d.description && d.description.toLowerCase().includes(searchLower));
+        d.title.toLowerCase().includes(searchLower);
 
-      return matchesStatus && matchesSearch;
+      // On combine tout : le client DOIT être actif pour apparaître
+      return isClientActive && matchesStatus && matchesSearch;
     });
 
     // TRI (ton code existant reste le même)
@@ -65,9 +76,18 @@ const processedDeadlines = useMemo(() => {
     });
   }, [deadlines, sortBy, hideCompleted, searchQuery]);
 
-  const handleToggleStatus = async (id: string, currentStatus: string) => {
-    // Sécurité : Interdire la modification si l'obligation est INACTIVE
-    if (currentStatus === "INACTIVE") return;
+      // --- LOGIQUE DE DÉCOUPAGE POUR LA PAGINATION ---
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = processedDeadlines.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(processedDeadlines.length / itemsPerPage);
+
+  const handleToggleStatus = async (id: string, currentStatus: string, clientStatus?: string) => {
+    // Sécurité étendue : Bloquer si l'obligation OU le client est inactif
+    if (currentStatus === "INACTIVE" || clientStatus === "INACTIVE") {
+      alert("Action impossible : Ce dossier client est archivé/inactif.");
+      return;
+    }
 
     const newStatus = currentStatus === "PENDING" ? "COMPLETED" : "PENDING";
     try {
@@ -139,66 +159,92 @@ const processedDeadlines = useMemo(() => {
         {loading ? (
           <div className="loading-spinner">Chargement des données...</div>
         ) : (
-          <table className="obligations-table">
-            <thead>
-              <tr>
-                <th>Échéance</th>
-                <th>Client</th>
-                <th>Obligation</th>
-                <th>Priorité</th>
-                <th>Statut</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {processedDeadlines.length > 0 ? (
-                processedDeadlines.map((item) => {
-                  const isOverdue = new Date(item.dueDate) < new Date() && item.status === "PENDING";
-                  const isInactive = item.status === "INACTIVE";
+          <>
+            <table className="obligations-table">
+              <thead>
+                <tr>
+                  <th>Échéance</th>
+                  <th>Client</th>
+                  <th>Obligation</th>
+                  <th>Priorité</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.length > 0 ? (
+                  currentItems.map((item) => {
+                    const isOverdue = new Date(item.dueDate) < new Date() && item.status === "PENDING";
+                    const isInactive = item.status === "INACTIVE";
 
-                  return (
-                    <tr key={item.id} className={`
-                      ${isOverdue ? "row-overdue" : ""} 
-                      ${item.status === "COMPLETED" ? "row-completed" : ""}
-                      ${isInactive ? "row-inactive" : ""}
-                    `}>
-                      <td className="date-cell">
-                        {new Date(item.dueDate).toLocaleDateString("fr-CA")}
-                        {isOverdue && <span className="badge-error">RETARD</span>}
-                        {isInactive && <span className="badge-inactive">INACTIF</span>}
-                      </td>
-                      <td className="client-cell">
-                        <strong>{item.client ? `${item.client.lastName}, ${item.client.firstName}` : "N/A"}</strong>
-                      </td>
-                      <td className="info-cell">
-                        <strong>{item.title}</strong>
-                        <p>{item.description}</p>
-                      </td>
-                      <td><span className={`prio ${item.priority.toLowerCase()}`}>{item.priority}</span></td>
-                      <td>
-                        <button 
-                          className={`status-btn ${item.status.toLowerCase()}`} 
-                          onClick={() => handleToggleStatus(item.id, item.status)}
-                          disabled={isInactive}
-                        >
-                          {item.status === "COMPLETED" ? "✅ Fait" : isInactive ? "🔒 Verrouillé" : "⏳ À faire"}
-                        </button>
-                      </td>
-                      <td>
-                        {!isInactive && (
-                          <button className="btn-icon" onClick={() => handleDelete(item.id, item.status)} title="Supprimer">
-                            🗑️
+                    return (
+                      <tr key={item.id} className={`
+                        ${isOverdue ? "row-overdue" : ""} 
+                        ${item.status === "COMPLETED" ? "row-completed" : ""}
+                        ${isInactive ? "row-inactive" : ""}
+                      `}>
+                        <td className="date-cell">
+                          {new Date(item.dueDate).toLocaleDateString("fr-CA")}
+                          {isOverdue && <span className="badge-error">RETARD</span>}
+                          {isInactive && <span className="badge-inactive">INACTIF</span>}
+                        </td>
+                        <td className="client-cell">
+                          <strong>{item.client ? `${item.client.lastName}, ${item.client.firstName}` : "N/A"}</strong>
+                        </td>
+                        <td className="info-cell">
+                          <strong>{item.title}</strong>
+                          <p>{item.description}</p>
+                        </td>
+                        <td><span className={`prio ${item.priority.toLowerCase()}`}>{item.priority}</span></td>
+                        <td>
+                          <button 
+                            className={`status-btn ${item.status.toLowerCase()}`} 
+                            onClick={() => handleToggleStatus(item.id, item.status)}
+                            disabled={isInactive}
+                          >
+                            {item.status === "COMPLETED" ? "✅ Fait" : isInactive ? "🔒 Verrouillé" : "⏳ À faire"}
                           </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr><td colSpan={6} className="empty">Aucune obligation trouvée.</td></tr>
-              )}
-            </tbody>
-          </table>
+                        </td>
+                        <td>
+                          {!isInactive && (
+                            <button className="btn-icon" onClick={() => handleDelete(item.id, item.status)} title="Supprimer">
+                              🗑️
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr><td colSpan={6} className="empty">Aucune obligation trouvée.</td></tr>
+                )}
+              </tbody>
+            </table>
+            {/* --- CONTRÔLES DE PAGINATION --- */}
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button 
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => prev - 1)}
+                  className="page-btn"
+                >
+                  Précédent
+                </button>
+                
+                <span className="page-info">
+                  Page <strong>{currentPage}</strong> sur <strong>{totalPages}</strong>
+                </span>
+
+                <button 
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  className="page-btn"
+                >
+                  Suivant
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

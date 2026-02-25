@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import Select from "react-select";
 import { useAuth } from "@clerk/clerk-react";
 import { getClients } from "../service/client.api";
 import { createDeadline } from "../service/deadline.api";
 
+import '../styles/obligations.css';
 interface AddDeadlineFormProps {
-  clientId?: string; // Optionnel : si on est déjà sur la fiche d'un client
+  clientId?: string; 
   onSuccess: () => void;
   onCancel: () => void;
 }
@@ -24,17 +26,27 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
   });
 
   useEffect(() => {
-    // On ne charge les clients que si on n'a pas déjà un clientId
-    if (!clientId) {
-      getClients(getToken).then(setClients).catch(console.error);
-    }
-  }, [clientId]);
+      if (!clientId) {
+        getClients(getToken).then(data => {
+          // Filtrer les clients actifs et les transformer pour react-select
+          const activeClients = data
+            .filter((c: any) => c.status !== "INACTIVE")
+            .map((c: any) => ({
+              value: c.id,
+              label: `${c.firstName} ${c.lastName}`
+            }));
+          setClients(activeClients);
+        }).catch(console.error);
+      }
+    }, [clientId, getToken]);
+
+   
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     setLoading(true);
     try {
-      // Transformation de la date en ISO 8601 pour Prisma
       const payload = {
         ...formData,
         dueDate: new Date(formData.dueDate).toISOString(),
@@ -44,7 +56,7 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
       onSuccess();
     } catch (error: any) {
       console.error(error);
-      alert(error.message || "Erreur lors de la création de l'obligation.");
+      alert(error.message || "Erreur lors de la création.");
     } finally {
       setLoading(false);
     }
@@ -53,23 +65,21 @@ export default function AddDeadlineForm({ clientId, onSuccess, onCancel }: AddDe
   return (
     <form onSubmit={handleSubmit} className="add-deadline-form">
       <h3>Nouvelle Obligation</h3>
+      
       {!clientId && (
         <div className="form-group">
-          <label>Client</label>
-          <select 
-           aria-label="edit"
-            required 
-            value={formData.clientId}
-            onChange={(e) => setFormData({...formData, clientId: e.target.value})}
-          >
-            <option value="">Choisir un client...</option>
-            {clients.map(c => (
-              <option key={c.id} value={c.id}>{c.firstName} {c.lastName}</option>
-            ))}
-          </select>
+          <label>Client (Actifs uniquement)</label>
+          <Select
+            placeholder="Taper le nom du client..."
+            className="react-select-container" // Classe pour le conteneur externe
+            classNamePrefix="react-select"     // Préfixe pour les classes internes
+            options={clients}
+            isLoading={clients.length === 0}
+            isSearchable={true} // Active la barre de recherche
+            onChange={(option) => setFormData({ ...formData, clientId: option?.value || "" })}
+          />
         </div>
       )}
-
       <div className="form-group">
         <label>Titre de l'obligation</label>
         <input 

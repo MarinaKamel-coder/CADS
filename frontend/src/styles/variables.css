@@ -37,3 +37,37 @@
 }
 
 .table-card { background-color: var(--bg-card); border-color: var(--border-ui); }
+/* Le conteneur du message d'erreur */
+.error-message {
+  background-color: #fff5f5; /* Fond rouge très léger */
+  color: #c53030;           /* Texte rouge foncé pour lisibilité */
+  border-left: 4px solid #fc8181; /* Ligne d'accentuation à gauche */
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  
+  /* Flexbox pour aligner l'icône et le texte */
+  display: flex;
+  align-items: center;
+  
+  /* Une petite ombre portée pour donner du relief */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Ajout d'une petite icône en pur CSS (point d'exclamation) */
+.error-message::before {
+  content: "!";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: #c53030;
+  color: white;
+  border-radius: 50%;
+  margin-right: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
