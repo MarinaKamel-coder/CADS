@@ -12,8 +12,8 @@ import documentRoutes from './routes/document.routes';
 import alertRoutes from "./routes/alert.routes";
 
 // Import des middlewares
-import { clerkAuth, requireAuth } from './middlewares/clerk.middleware.js';
-import { syncUser } from "./middlewares/syncUser.middleware.js";
+import { clerkAuth, requireAuth } from './middlewares/clerk.middleware';
+import { syncUser } from "./middlewares/syncUser.middleware";
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
@@ -24,13 +24,9 @@ const app = express();
 const corsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     const allowedOrigins = [
-      "https://cads-murex.vercel.app",
-      "https://cads-backend.vercel.app",
-      "https://cads-ieog.vercel.app",
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "http://127.0.0.1:5173",
-      "http://127.0.0.1:3000"
+      "https://cads-pied.vercel.app",
+      "https://localhost:5173",
+      "https://localhost:5174",
     ];
     
     // En développement, accepter toutes les requêtes sans origin (mobile, etc)
